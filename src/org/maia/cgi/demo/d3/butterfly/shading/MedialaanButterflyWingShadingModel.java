@@ -1,0 +1,41 @@
+package org.maia.cgi.demo.d3.butterfly.shading;
+
+import java.awt.Color;
+
+import org.maia.cgi.compose.Compositing;
+import org.maia.cgi.demo.d3.butterfly.model.ButterflyScene;
+import org.maia.cgi.demo.d3.butterfly.model.ButterflyWing;
+import org.maia.cgi.geometry.d3.Point3D;
+
+public class MedialaanButterflyWingShadingModel extends VtmGoButterflyWingShadingModel {
+
+	public MedialaanButterflyWingShadingModel() {
+	}
+
+	@Override
+	public Color applyShading(Color color, Point3D positionInCamera, Point3D maskPosition, ButterflyWing wing,
+			ButterflyScene scene) {
+		color = applyWingLuminance(color, maskPosition, wing);
+		color = applyWingContour(color, maskPosition, wing);
+		color = applyLighting(color, positionInCamera, scene);
+		color = applyTransparency(color, maskPosition);
+		return color;
+	}
+
+	private Color applyLighting(Color color, Point3D positionInCamera, ButterflyScene scene) {
+		double z = positionInCamera.getZ();
+		if (z < -11.0) {
+			double distMax = 0.3 + 0.25 * z / scene.getCamera().getViewVolume().getFarPlaneZ();
+			double dist = Math.min(scene.getDistanceToNearestSpotLight(positionInCamera), distMax);
+			double r = Math.pow(dist / distMax, 1.0);
+			double brightnessFactor = 1.0 - 1.6 * r;
+			color = Compositing.adjustBrightness(color, brightnessFactor);
+			double saturationFactor = 1.0 - 1.3 * r;
+			if (saturationFactor < 0) {
+				color = Compositing.adjustSaturation(color, saturationFactor);
+			}
+		}
+		return color;
+	}
+
+}

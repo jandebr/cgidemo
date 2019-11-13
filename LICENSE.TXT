@@ -1,0 +1,17 @@
+LICENSE
+=======
+
+The 3D models in this work are licensed under "Creative Commons Attribution-NonCommercial 4.0 International License"
+> See https://creativecommons.org/licenses/by-nc/4.0/
+
+Attribution goes to the original author of the work, Mr. Jan De Beer
+> GitHub: https://github.com/jandebr
+> LinkedIn: https://be.linkedin.com/in/jdbeer
+
+
+The artwork for the butterfly wingcovers is copyrighted material, here included as illustration for teaching techniques
+of ray tracing and shading models
+> See exception 5.3(a) to the Copyright law of the European Union
+
+
+All other parts of this work are for demonstration, non-commercial purposes only and not to be used in any other way

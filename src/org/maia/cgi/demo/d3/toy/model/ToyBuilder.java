@@ -2,7 +2,6 @@ package org.maia.cgi.demo.d3.toy.model;
 
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
@@ -105,7 +104,7 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyBodyPart1() {
-		BaseObject3D bodyPart = buildToyBodyPart(new File("resources/toy/bodypart1.csv"));
+		BaseObject3D bodyPart = buildToyBodyPart("resources/toy/bodypart1.csv");
 		bodyPart.scale(0.97, 1.27, 0.48);
 		bodyPart.rotateY(Geometry.degreesToRadians(64.0));
 		bodyPart.translate(-1.137, 0.440, 0.314);
@@ -113,7 +112,7 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyBodyPart2() {
-		BaseObject3D bodyPart = buildToyBodyPart(new File("resources/toy/bodypart2.csv"));
+		BaseObject3D bodyPart = buildToyBodyPart("resources/toy/bodypart2.csv");
 		bodyPart.scale(0.69, 0.98, 0.48);
 		bodyPart.rotateY(Geometry.degreesToRadians(32.0));
 		bodyPart.translate(-0.552, 0.400, -0.394);
@@ -121,7 +120,7 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyBodyPart3() {
-		BaseObject3D bodyPart = buildToyBodyPart(new File("resources/toy/bodypart3.csv"));
+		BaseObject3D bodyPart = buildToyBodyPart("resources/toy/bodypart3.csv");
 		bodyPart.scale(0.70, 0.90, 0.48);
 		bodyPart.rotateY(Geometry.degreesToRadians(16.0));
 		bodyPart.translate(0.150, 0.520, -0.706);
@@ -129,15 +128,15 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyBodyPart4() {
-		BaseObject3D bodyPart = buildToyBodyPart(new File("resources/toy/bodypart4.csv"));
+		BaseObject3D bodyPart = buildToyBodyPart("resources/toy/bodypart4.csv");
 		bodyPart.scale(0.89, 1.18, 0.48);
 		bodyPart.translate(1.011, 0.380, -0.813);
 		return bodyPart;
 	}
 
-	protected BaseObject3D buildToyBodyPart(File shapeFile) {
-		return buildExtrusionWithRoundedSides(loadShapeXY(shapeFile), 0.2, getTheme().getBodyPartColor(), getTheme()
-				.getBodyPartShadingModel());
+	protected BaseObject3D buildToyBodyPart(String shapeFilePath) {
+		return buildExtrusionWithRoundedSides(loadShapeXY(shapeFilePath), 0.2, getTheme().getBodyPartColor(),
+				getTheme().getBodyPartShadingModel());
 	}
 
 	protected BaseObject3D buildToyBodyPartConnectionStrip() {
@@ -277,7 +276,7 @@ public class ToyBuilder {
 		Color color = getTheme().getMouthColor();
 		FlatShadingModel shadingModel = getTheme().getMouthShadingModel();
 		PolygonalObject3D shapeXY = buildCircularShapeXY(0.02, 6);
-		PolygonalObject3D pathObjectLeft = loadShapeXY(new File("resources/toy/mouth.csv"));
+		PolygonalObject3D pathObjectLeft = loadShapeXY("resources/toy/mouth.csv");
 		MultipartObject3D<BaseObject3D> mouth = new MultipartObject3D<BaseObject3D>();
 		for (int i = 0; i < 2; i++) {
 			PolygonalObject3D pathObject = cloneShape(pathObjectLeft);
@@ -362,9 +361,9 @@ public class ToyBuilder {
 
 	protected BaseObject3D buildToyEarSide(Color color) {
 		FlatShadingModel shadingModel = getTheme().getEarShadingModel();
-		List<Point3D> innerVertices = loadVertices(new File("resources/toy/ear-inner.csv"));
-		List<Point3D> midVertices = loadVertices(new File("resources/toy/ear-mid.csv"));
-		List<Point3D> outerVertices = loadVertices(new File("resources/toy/ear-outer.csv"));
+		List<Point3D> innerVertices = loadVertices("resources/toy/ear-inner.csv");
+		List<Point3D> midVertices = loadVertices("resources/toy/ear-mid.csv");
+		List<Point3D> outerVertices = loadVertices("resources/toy/ear-outer.csv");
 		List<Point3D> innerVerticesCC = new Vector<Point3D>(innerVertices);
 		Collections.reverse(innerVerticesCC);
 		MultipartObject3D<BaseObject3D> ear = new MultipartObject3D<BaseObject3D>();
@@ -528,14 +527,14 @@ public class ToyBuilder {
 		return new PolygonalObject3D(polygon.getVerticesInWorldCoordinates());
 	}
 
-	protected PolygonalObject3D loadShapeXY(File file) {
-		return new PolygonalObject3D(loadVertices(file));
+	protected PolygonalObject3D loadShapeXY(String filePath) {
+		return new PolygonalObject3D(loadVertices(filePath));
 	}
 
-	protected List<Point3D> loadVertices(File file) {
+	protected List<Point3D> loadVertices(String filePath) {
 		List<Point3D> vertices = new Vector<Point3D>(50);
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				int i = line.indexOf(',');

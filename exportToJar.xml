@@ -9,7 +9,6 @@
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="bin"/>
-            <fileset dir="resources"/>
             <fileset dir="../cgi/bin"/>
             <fileset dir="../cgi/resources"/>
         </jar>

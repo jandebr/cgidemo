@@ -10,7 +10,9 @@
             </manifest>
             <fileset dir="bin"/>
             <fileset dir="../cgi/bin"/>
-            <fileset dir="../cgi/resources"/>
+            <fileset dir="../cgi/resources">
+            	<exclude name="icons/master/**" />
+        	</fileset>
         </jar>
     </target>
 </project>

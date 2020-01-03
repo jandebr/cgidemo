@@ -1,18 +1,13 @@
 package org.maia.cgi.demo.d3.toy.model;
 
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
 import org.maia.cgi.geometry.Geometry;
-import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
-import org.maia.cgi.geometry.d3.Vector3D;
-import org.maia.cgi.model.d3.CoordinateFrame;
+import org.maia.cgi.model.d3.ModelBuilderUtils;
 import org.maia.cgi.model.d3.object.BaseObject3D;
 import org.maia.cgi.model.d3.object.MultipartObject3D;
 import org.maia.cgi.model.d3.object.PolygonalObject3D;
@@ -361,9 +356,9 @@ public class ToyBuilder {
 
 	protected BaseObject3D buildToyEarSide(Color color) {
 		FlatShadingModel shadingModel = getTheme().getEarShadingModel();
-		List<Point3D> innerVertices = loadVertices("resources/toy/ear-inner.csv");
-		List<Point3D> midVertices = loadVertices("resources/toy/ear-mid.csv");
-		List<Point3D> outerVertices = loadVertices("resources/toy/ear-outer.csv");
+		List<Point3D> innerVertices = loadVerticesXY("resources/toy/ear-inner.csv");
+		List<Point3D> midVertices = loadVerticesXY("resources/toy/ear-mid.csv");
+		List<Point3D> outerVertices = loadVerticesXY("resources/toy/ear-outer.csv");
 		List<Point3D> innerVerticesCC = new Vector<Point3D>(innerVertices);
 		Collections.reverse(innerVerticesCC);
 		MultipartObject3D<BaseObject3D> ear = new MultipartObject3D<BaseObject3D>();
@@ -403,150 +398,50 @@ public class ToyBuilder {
 
 	protected BaseObject3D buildExtrusionWithRoundedSides(PolygonalObject3D shapeXY, double roundnessFactor,
 			Color color, FlatShadingModel shadingModel) {
-		normalizeBoundingBox(shapeXY);
-		double t = 0.5;
-		double r = roundnessFactor * t;
-		double d = t - r;
-		int nr = 3 + (int) Math.ceil(getPrecision() / 0.33);
-		List<PolygonalObject3D> layers = new Vector<PolygonalObject3D>(2 * nr);
-		for (int i = 0; i < nr; i++) {
-			double angle = Math.PI / 2 / (nr - 1) * i;
-			double z = d + r * Math.cos(angle);
-			double scale = 1.0 - 2 * r * (1.0 - Math.sin(angle));
-			layers.add((PolygonalObject3D) cloneShape(shapeXY).scale(scale).translateZ(z));
-		}
-		for (int i = 0; i < nr; i++) {
-			double angle = Math.PI / 2 - Math.PI / 2 / (nr - 1) * i;
-			double z = -(d + r * Math.cos(angle));
-			double scale = 1.0 - 2 * r * (1.0 - Math.sin(angle));
-			layers.add((PolygonalObject3D) cloneShape(shapeXY).scale(scale).translateZ(z));
-		}
-		return buildLayeredObject(layers, false, color, shadingModel);
+		return ModelBuilderUtils.buildExtrusionWithRoundedSides(shapeXY, roundnessFactor, getPrecision(), color,
+				shadingModel);
 	}
 
 	protected BaseObject3D buildExtrusionAlongPath(PolygonalObject3D shapeXY, List<Point3D> path, Color color,
 			FlatShadingModel shadingModel) {
-		int n = path.size();
-		List<PolygonalObject3D> layers = new Vector<PolygonalObject3D>(n);
-		for (int i = 0; i < n; i++) {
-			Point3D p = path.get(i);
-			Vector3D normalVector = null;
-			if (i == 0) {
-				normalVector = path.get(1).minus(p);
-			} else if (i < n - 1) {
-				Vector3D n1 = p.minus(path.get(i - 1));
-				Vector3D n2 = path.get(i + 1).minus(p);
-				normalVector = new Vector3D((n1.getX() + n2.getX()) / 2, (n1.getY() + n2.getY()) / 2,
-						(n1.getZ() + n2.getZ()) / 2);
-			} else {
-				normalVector = p.minus(path.get(i - 1));
-			}
-			double lon = normalVector.getLongitudeInRadians();
-			double lat = normalVector.getLatitudeInRadians();
-			layers.add((PolygonalObject3D) cloneShape(shapeXY).rotateY(Math.PI / 2).rotateZ(lat).rotateY(-lon)
-					.translate(p.getX(), p.getY(), p.getZ()));
-		}
-		return buildLayeredObject(layers, true, color, shadingModel);
+		return ModelBuilderUtils.buildExtrusionAlongPath(shapeXY, path, color, shadingModel);
 	}
 
 	protected BaseObject3D buildSphere(double radius, int vertexCount, Color color, FlatShadingModel shadingModel) {
-		double e = 0.005;
-		int nlayers = vertexCount / 2;
-		List<PolygonalObject3D> layers = new Vector<PolygonalObject3D>(nlayers);
-		for (int li = 0; li < nlayers; li++) {
-			double z = li / (double) (nlayers - 1) * (2 * radius - 2 * e) - radius + e;
-			double r = radius * Math.cos(Math.asin(z / radius));
-			PolygonalObject3D polygon = (PolygonalObject3D) buildCircularShapeXY(r, vertexCount).translateZ(z);
-			layers.add(polygon);
-		}
-		return buildLayeredObject(layers, false, color, shadingModel);
+		return ModelBuilderUtils.buildSphere(radius, vertexCount, color, shadingModel);
 	}
 
 	protected BaseObject3D buildLayeredObject(List<PolygonalObject3D> layers, boolean triangularFaces, Color color,
 			FlatShadingModel shadingModel) {
-		MultipartObject3D<SimpleFace3D> object = new MultipartObject3D<SimpleFace3D>();
-		int lc = layers.size();
-		// Sides
-		object.addPart(convertToFace(layers.get(0), color, shadingModel));
-		object.addPart(convertToFace(layers.get(lc - 1), color, shadingModel));
-		// Surface
-		for (int li = 0; li < lc - 1; li++) {
-			List<Point3D> verticesP = layers.get(li).getVerticesInWorldCoordinates();
-			List<Point3D> verticesQ = layers.get(li + 1).getVerticesInWorldCoordinates();
-			int n = verticesP.size();
-			for (int i = 0; i < n; i++) {
-				Point3D p0 = verticesP.get(i);
-				Point3D p1 = verticesP.get((i + 1) % n);
-				Point3D q0 = verticesQ.get(i);
-				Point3D q1 = verticesQ.get((i + 1) % n);
-				if (triangularFaces) {
-					object.addPart(new SimpleFace3D(color, shadingModel, p0, p1, q1));
-					object.addPart(new SimpleFace3D(color, shadingModel, p0, q1, q0));
-				} else {
-					object.addPart(new SimpleFace3D(color, shadingModel, p0, p1, q1, q0));
-				}
-			}
-		}
-		return object;
+		return ModelBuilderUtils.buildLayeredObject(layers, triangularFaces, color, shadingModel);
 	}
 
 	protected PolygonalObject3D buildCircularShapeXY(double radius, int vertexCount) {
-		double angleFrom = 0;
-		double angleTo = 2 * Math.PI * (1.0 - 1.0 / vertexCount);
-		return buildCircularSegmentXY(radius, angleFrom, angleTo, vertexCount);
+		return ModelBuilderUtils.buildCircularShapeXY(radius, vertexCount);
 	}
 
 	protected PolygonalObject3D buildCircularSegmentXY(double radius, double angleFrom, double angleTo, int vertexCount) {
-		List<Point3D> vertices = new Vector<Point3D>(vertexCount);
-		for (int i = 0; i < vertexCount; i++) {
-			double radians = angleFrom + (angleTo - angleFrom) * i / (vertexCount - 1);
-			double x = radius * Math.cos(radians);
-			double y = radius * Math.sin(radians);
-			vertices.add(new Point3D(x, y, 0));
-		}
-		return new PolygonalObject3D(vertices);
+		return ModelBuilderUtils.buildCircularSegmentXY(radius, angleFrom, angleTo, vertexCount);
 	}
 
 	protected void normalizeBoundingBox(BaseObject3D object) {
-		Box3D box = object.getBoundingBox(CoordinateFrame.WORLD, null);
-		Point3D center = box.getCenter();
-		object.translate(-center.getX(), -center.getY(), -center.getZ());
-		if (box.getWidth() > 0)
-			object.scaleX(1.0 / box.getWidth());
-		if (box.getHeight() > 0)
-			object.scaleY(1.0 / box.getHeight());
-		if (box.getDepth() > 0)
-			object.scaleZ(1.0 / box.getDepth());
+		ModelBuilderUtils.stretchToUnityBoundingBox(object);
 	}
 
 	protected SimpleFace3D convertToFace(PolygonalObject3D polygon, Color color, FlatShadingModel shadingModel) {
-		return new SimpleFace3D(color, shadingModel, polygon.getVerticesInWorldCoordinates());
+		return ModelBuilderUtils.convertToFace(polygon, color, shadingModel);
 	}
 
 	protected PolygonalObject3D cloneShape(PolygonalObject3D polygon) {
-		return new PolygonalObject3D(polygon.getVerticesInWorldCoordinates());
+		return ModelBuilderUtils.cloneShape(polygon);
 	}
 
 	protected PolygonalObject3D loadShapeXY(String filePath) {
-		return new PolygonalObject3D(loadVertices(filePath));
+		return ModelBuilderUtils.loadShapeXY(filePath);
 	}
 
-	protected List<Point3D> loadVertices(String filePath) {
-		List<Point3D> vertices = new Vector<Point3D>(50);
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filePath));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				int i = line.indexOf(',');
-				double x = Double.parseDouble(line.substring(0, i));
-				double y = -Double.parseDouble(line.substring(i + 1));
-				vertices.add(new Point3D(x, y, 0));
-			}
-			reader.close();
-		} catch (IOException e) {
-			System.err.println(e);
-		}
-		return vertices;
+	protected List<Point3D> loadVerticesXY(String filePath) {
+		return ModelBuilderUtils.loadVerticesXY(filePath);
 	}
 
 	public ToyTheme getTheme() {

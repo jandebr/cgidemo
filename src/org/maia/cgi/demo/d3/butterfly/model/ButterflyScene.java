@@ -70,7 +70,7 @@ public abstract class ButterflyScene extends Scene {
 		double fz = getCamera().getViewVolume().getFarPlaneZ();
 		double scaleZ = getCamera().getViewVolume().getViewPlaneRectangle().getWidth() / -fz;
 		// Project light onto near plane
-		Point3D lp = spotLight.getPosition();
+		Point3D lp = spotLight.getPositionInWorld();
 		double scale = vz / lp.getZ();
 		double lx = scale * lp.getX();
 		// double ly = scale * lp.getY();

@@ -55,28 +55,28 @@ public class ToyTheme {
 
 	public ToyTheme() {
 		this.bodyPartColor = new Color(237, 217, 157);
-		this.bodyPartShadingModel = new FlatShadingModelImpl(0.9, 6.0, 0.8);
+		this.bodyPartShadingModel = new FlatShadingModelImpl(0.9, 6.0);
 		this.bodyPartConnectorStripColor = new Color(245, 133, 64);
-		this.bodyPartConnectorStripShadingModel = new FlatShadingModelImpl(0.8, 2.0, 0.6);
+		this.bodyPartConnectorStripShadingModel = new FlatShadingModelImpl(0.8, 2.0);
 		this.wheelColor = new Color(204, 54, 0);
-		this.wheelShadingModel = new FlatShadingModelImpl(0.8, 2.0, 0.6);
+		this.wheelShadingModel = new FlatShadingModelImpl(0.8, 2.0);
 		this.wheelRodColor = bodyPartColor;
 		this.wheelRodShadingModel = bodyPartShadingModel;
 		this.noseColor = new Color(87, 45, 3);
-		this.noseShadingModel = new FlatShadingModelImpl(0.9, 5.0, 0.8);
+		this.noseShadingModel = new FlatShadingModelImpl(0.9, 5.0);
 		this.eyeColor = new Color(22, 23, 28);
-		this.eyeShadingModel = new FlatShadingModelImpl(0.5, 6.0, 0.8);
+		this.eyeShadingModel = new FlatShadingModelImpl(0.5, 6.0);
 		this.mouthColor = new Color(0, 0, 0);
-		this.mouthShadingModel = new FlatShadingModelImpl(0, 6.0, 0.8);
+		this.mouthShadingModel = new FlatShadingModelImpl(0, 6.0);
 		this.neckRingColor = new Color(26, 145, 163);
-		this.neckRingShadingModel = new FlatShadingModelImpl(0.8, 2.0, 0.6);
+		this.neckRingShadingModel = new FlatShadingModelImpl(0.8, 2.0);
 		this.tailColor = noseColor;
 		this.tailShadingModel = noseShadingModel;
 		this.tailCordColor = new Color(240, 240, 240);
-		this.tailCordShadingModel = new FlatShadingModelImpl(0.9, 6.0, 0.8);
+		this.tailCordShadingModel = new FlatShadingModelImpl(0.9, 6.0);
 		this.earInsideColor = new Color(232, 212, 197);
 		this.earOutsideColor = new Color(107, 49, 7);
-		this.earShadingModel = new FlatShadingModelImpl(0.4, 1.0, 0.6);
+		this.earShadingModel = new FlatShadingModelImpl(0.4, 1.0);
 	}
 
 	public Color getWheelColor() {

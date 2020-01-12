@@ -80,7 +80,7 @@ public class ButterflyWing extends PolygonalObject3D {
 	}
 
 	@Override
-	protected ObjectSurfacePoint3D probeSurfacePoint(Point3D positionInCamera, Scene scene) {
+	protected ObjectSurfacePoint3D probeSurfacePoint(Point3D positionInCamera, Scene scene, boolean applyShading) {
 		ObjectSurfacePoint3D surfacePoint = null;
 		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
 		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);
@@ -88,9 +88,11 @@ public class ButterflyWing extends PolygonalObject3D {
 		if (!getWingMask().isMasked(maskPosition.getX(), maskPosition.getZ())) {
 			Color color = getWingPicture().sampleColor(picturePosition.getX(), picturePosition.getZ());
 			if (color != null) {
-				color = getShadingModel().applyShading(color, positionInCamera, maskPosition, this,
-						(ButterflyScene) scene);
-				surfacePoint = new ObjectSurfacePoint3DImpl(positionInCamera, color);
+				if (applyShading) {
+					color = getShadingModel().applyShading(color, positionInCamera, maskPosition, this,
+							(ButterflyScene) scene);
+				}
+				surfacePoint = new ObjectSurfacePoint3DImpl(this, positionInCamera, color);
 			}
 		}
 		return surfacePoint;

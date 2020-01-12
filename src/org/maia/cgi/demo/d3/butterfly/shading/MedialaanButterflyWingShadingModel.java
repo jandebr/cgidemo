@@ -13,20 +13,21 @@ public class MedialaanButterflyWingShadingModel extends VtmGoButterflyWingShadin
 	}
 
 	@Override
-	public Color applyShading(Color color, Point3D positionInCamera, Point3D maskPosition, ButterflyWing wing,
-			ButterflyScene scene) {
+	public Color applyShading(Color surfaceColor, Point3D surfacePositionInCamera, Point3D maskPosition,
+			ButterflyWing wing, ButterflyScene scene) {
+		Color color = surfaceColor;
 		color = applyWingLuminance(color, maskPosition, wing);
 		color = applyWingContour(color, maskPosition, wing);
-		color = applyLighting(color, positionInCamera, scene);
+		color = applyLighting(color, surfacePositionInCamera, scene);
 		color = applyTransparency(color, maskPosition);
 		return color;
 	}
 
-	private Color applyLighting(Color color, Point3D positionInCamera, ButterflyScene scene) {
-		double z = positionInCamera.getZ();
+	private Color applyLighting(Color color, Point3D surfacePositionInCamera, ButterflyScene scene) {
+		double z = surfacePositionInCamera.getZ();
 		if (z < -11.0) {
 			double distMax = 0.3 + 0.25 * z / scene.getCamera().getViewVolume().getFarPlaneZ();
-			double dist = Math.min(scene.getDistanceToNearestSpotLight(positionInCamera), distMax);
+			double dist = Math.min(scene.getDistanceToNearestSpotLight(surfacePositionInCamera), distMax);
 			double r = Math.pow(dist / distMax, 1.0);
 			double brightnessFactor = 1.0 - 1.6 * r;
 			color = Compositing.adjustBrightness(color, brightnessFactor);

@@ -12,9 +12,9 @@ public class BasicButterflyWingShadingModel implements ButterflyWingShadingModel
 	}
 
 	@Override
-	public Color applyShading(Color color, Point3D positionInCamera, Point3D maskPosition, ButterflyWing wing,
-			ButterflyScene scene) {
-		return color;
+	public Color applyShading(Color surfaceColor, Point3D surfacePositionInCamera, Point3D maskPosition,
+			ButterflyWing wing, ButterflyScene scene) {
+		return surfaceColor;
 	}
 
 }

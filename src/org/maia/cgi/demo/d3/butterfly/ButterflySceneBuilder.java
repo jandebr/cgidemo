@@ -44,9 +44,11 @@ public class ButterflySceneBuilder {
 		Camera camera = createCamera(options.getAspectRatio());
 		ButterflyScene scene = new HandsButterflyScene(camera, 500, new File("resources/butterfly/wingcovers/art"));
 		scene.addLightSource(new InboundLight(new Vector3D(0, -1.0, -0.2).getUnitVector()));
-		scene.setAmbientColor(Compositing.setTransparency(options.getSceneBackgroundColor(), 1.0));
-		scene.setDarknessDepthFunction(createDarknessDepthFunction(scene, 0.6, 0.4));
-		scene.setDepthBlurParameters(new DepthBlurParameters(0.6, 0.3, 4.0));
+		scene.getRenderParameters()
+				.setAmbientColor(Compositing.setTransparency(options.getSceneBackgroundColor(), 1.0));
+		scene.getRenderParameters().setShadowsEnabled(options.isShadowsEnabled());
+		scene.getRenderParameters().setDarknessDepthFunction(createDarknessDepthFunction(scene, 0.6, 0.4));
+		scene.getRenderParameters().setDepthBlurParameters(new DepthBlurParameters(0.6, 0.3, 4.0));
 		scene.setName("Butterflies");
 		return scene;
 	}

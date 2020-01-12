@@ -40,8 +40,10 @@ public class ToySceneBuilder {
 		scene.addTopLevelObject(toyBuilder.build().translateZ(-4.0));
 		scene.addLightSource(new InboundLight(new Vector3D(0, 0, -1.0)));
 		scene.addLightSource(new InboundLight(new Vector3D(0, -1.0, 0)));
-		scene.setAmbientColor(Compositing.setTransparency(options.getSceneBackgroundColor(), 1.0));
-		scene.setDepthBlurParameters(new DepthBlurParameters(0.6, 1.0, 12.0));
+		scene.getRenderParameters()
+				.setAmbientColor(Compositing.setTransparency(options.getSceneBackgroundColor(), 1.0));
+		scene.getRenderParameters().setShadowsEnabled(options.isShadowsEnabled());
+		scene.getRenderParameters().setDepthBlurParameters(new DepthBlurParameters(0.6, 1.0, 12.0));
 		return scene;
 	}
 

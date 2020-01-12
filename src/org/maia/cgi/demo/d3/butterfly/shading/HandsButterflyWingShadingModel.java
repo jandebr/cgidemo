@@ -15,12 +15,13 @@ public class HandsButterflyWingShadingModel extends VtmGoButterflyWingShadingMod
 	}
 
 	@Override
-	public Color applyShading(Color color, Point3D positionInCamera, Point3D maskPosition, ButterflyWing wing,
-			ButterflyScene scene) {
+	public Color applyShading(Color surfaceColor, Point3D surfacePositionInCamera, Point3D maskPosition,
+			ButterflyWing wing, ButterflyScene scene) {
+		Color color = surfaceColor;
 		color = applyLighting(color, wing, scene);
 		color = applyWingLuminance(color, maskPosition, wing);
 		color = applyWingContour(color, maskPosition, wing);
-		color = applyDarknessByDepth(color, positionInCamera, scene);
+		color = applyDarknessByDepth(color, surfacePositionInCamera, scene);
 		color = applyTransparency(color, maskPosition);
 		return color;
 	}
@@ -39,10 +40,10 @@ public class HandsButterflyWingShadingModel extends VtmGoButterflyWingShadingMod
 		return color;
 	}
 
-	private Color applyDarknessByDepth(Color color, Point3D positionInCamera, ButterflyScene scene) {
-		DepthFunction df = scene.getDarknessDepthFunction();
+	private Color applyDarknessByDepth(Color color, Point3D surfacePositionInCamera, ButterflyScene scene) {
+		DepthFunction df = scene.getRenderParameters().getDarknessDepthFunction();
 		if (df != null) {
-			double depth = -positionInCamera.getZ();
+			double depth = -surfacePositionInCamera.getZ();
 			double factor = -(0.7 * df.eval(depth));
 			return Compositing.adjustBrightness(color, factor);
 		} else {

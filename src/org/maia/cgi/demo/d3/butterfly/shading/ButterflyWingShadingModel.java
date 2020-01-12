@@ -9,7 +9,7 @@ import org.maia.cgi.shading.d3.ShadingModel;
 
 public interface ButterflyWingShadingModel extends ShadingModel {
 
-	Color applyShading(Color color, Point3D positionInCamera, Point3D maskPosition, ButterflyWing wing,
+	Color applyShading(Color surfaceColor, Point3D surfacePositionInCamera, Point3D maskPosition, ButterflyWing wing,
 			ButterflyScene scene);
 
 }

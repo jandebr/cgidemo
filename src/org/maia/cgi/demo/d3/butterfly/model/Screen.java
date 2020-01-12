@@ -26,13 +26,13 @@ public class Screen extends PolygonalObject3D {
 	}
 
 	@Override
-	protected ObjectSurfacePoint3D probeSurfacePoint(Point3D positionInCamera, Scene scene) {
+	protected ObjectSurfacePoint3D probeSurfacePoint(Point3D positionInCamera, Scene scene, boolean applyShading) {
 		ObjectSurfacePoint3D surfacePoint = null;
 		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
 		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);
 		Color color = getScreenPicture().sampleColor(picturePosition.getX(), picturePosition.getZ());
 		if (color != null) {
-			surfacePoint = new ObjectSurfacePoint3DImpl(positionInCamera, color);
+			surfacePoint = new ObjectSurfacePoint3DImpl(this, positionInCamera, color);
 		}
 		return surfacePoint;
 	}

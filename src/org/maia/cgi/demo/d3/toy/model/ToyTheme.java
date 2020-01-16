@@ -53,13 +53,19 @@ public class ToyTheme {
 
 	private FlatShadingModel earShadingModel;
 
+	private Color floorTileOddColor;
+
+	private Color floorTileEvenColor;
+
+	private FlatShadingModel floorShadingModel;
+
 	public ToyTheme() {
 		this.bodyPartColor = new Color(237, 217, 157);
-		this.bodyPartShadingModel = new FlatShadingModelImpl(0.9, 6.0);
+		this.bodyPartShadingModel = new FlatShadingModelImpl(0.9, 1.0);
 		this.bodyPartConnectorStripColor = new Color(245, 133, 64);
-		this.bodyPartConnectorStripShadingModel = new FlatShadingModelImpl(0.8, 2.0);
+		this.bodyPartConnectorStripShadingModel = new FlatShadingModelImpl(0.8, 1.0);
 		this.wheelColor = new Color(204, 54, 0);
-		this.wheelShadingModel = new FlatShadingModelImpl(0.8, 2.0);
+		this.wheelShadingModel = new FlatShadingModelImpl(0.8, 1.0);
 		this.wheelRodColor = bodyPartColor;
 		this.wheelRodShadingModel = bodyPartShadingModel;
 		this.noseColor = new Color(87, 45, 3);
@@ -70,13 +76,16 @@ public class ToyTheme {
 		this.mouthShadingModel = new FlatShadingModelImpl(0, 6.0);
 		this.neckRingColor = new Color(26, 145, 163);
 		this.neckRingShadingModel = new FlatShadingModelImpl(0.8, 2.0);
-		this.tailColor = noseColor;
-		this.tailShadingModel = noseShadingModel;
+		this.tailColor = new Color(87, 45, 3);
+		this.tailShadingModel = new FlatShadingModelImpl(0.9, 2.0);
 		this.tailCordColor = new Color(240, 240, 240);
-		this.tailCordShadingModel = new FlatShadingModelImpl(0.9, 6.0);
+		this.tailCordShadingModel = new FlatShadingModelImpl(0.9, 4.0);
 		this.earInsideColor = new Color(232, 212, 197);
 		this.earOutsideColor = new Color(107, 49, 7);
 		this.earShadingModel = new FlatShadingModelImpl(0.4, 1.0);
+		this.floorTileOddColor = new Color(237, 230, 223);
+		this.floorTileEvenColor = new Color(181, 158, 136);
+		this.floorShadingModel = new FlatShadingModelImpl(1.0, 1.0);
 	}
 
 	public Color getWheelColor() {
@@ -261,6 +270,30 @@ public class ToyTheme {
 
 	public void setEarShadingModel(FlatShadingModel earShadingModel) {
 		this.earShadingModel = earShadingModel;
+	}
+
+	public Color getFloorTileOddColor() {
+		return floorTileOddColor;
+	}
+
+	public void setFloorTileOddColor(Color floorTileOddColor) {
+		this.floorTileOddColor = floorTileOddColor;
+	}
+
+	public Color getFloorTileEvenColor() {
+		return floorTileEvenColor;
+	}
+
+	public void setFloorTileEvenColor(Color floorTileEvenColor) {
+		this.floorTileEvenColor = floorTileEvenColor;
+	}
+
+	public FlatShadingModel getFloorShadingModel() {
+		return floorShadingModel;
+	}
+
+	public void setFloorShadingModel(FlatShadingModel floorShadingModel) {
+		this.floorShadingModel = floorShadingModel;
 	}
 
 }

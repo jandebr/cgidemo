@@ -6,12 +6,18 @@ import java.util.List;
 import java.util.Vector;
 
 import org.maia.cgi.geometry.Geometry;
+import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
+import org.maia.cgi.model.d3.CoordinateFrame;
 import org.maia.cgi.model.d3.ModelBuilderUtils;
 import org.maia.cgi.model.d3.object.BaseObject3D;
 import org.maia.cgi.model.d3.object.MultipartObject3D;
 import org.maia.cgi.model.d3.object.PolygonalObject3D;
 import org.maia.cgi.model.d3.object.SimpleFace3D;
+import org.maia.cgi.model.d3.object.SimpleTexturedFace3D;
+import org.maia.cgi.model.d3.object.SimpleTexturedFace3D.PictureRegion;
+import org.maia.cgi.shading.d2.ImageTextureMapFileHandle;
+import org.maia.cgi.shading.d2.TextureMapHandle;
 import org.maia.cgi.shading.d3.FlatShadingModel;
 
 public class ToyBuilder {
@@ -26,6 +32,15 @@ public class ToyBuilder {
 	}
 
 	public BaseObject3D build() {
+		BaseObject3D toy = buildToy();
+		BaseObject3D floor = buildFloor(toy);
+		MultipartObject3D<BaseObject3D> model = new MultipartObject3D<BaseObject3D>();
+		model.addPart(toy);
+		model.addPart(floor);
+		return model;
+	}
+
+	public BaseObject3D buildToy() {
 		MultipartObject3D<BaseObject3D> toy = new MultipartObject3D<BaseObject3D>();
 		toy.addPart(buildToyHead());
 		toy.addPart(buildToyBodyPart1());
@@ -394,6 +409,33 @@ public class ToyBuilder {
 		double z2 = zmax2 * Math.pow(xn, e2);
 		double z = (1.0 - t) * z1 + t * z2;
 		return new Point3D(vertex.getX(), vertex.getY(), z);
+	}
+
+	protected BaseObject3D buildFloor(BaseObject3D toy) {
+		MultipartObject3D<BaseObject3D> floor = new MultipartObject3D<BaseObject3D>();
+		Box3D bbox = toy.getBoundingBox(CoordinateFrame.WORLD, null);
+		double y = bbox.getY1();
+		double x1 = bbox.getX1() - 4.0;
+		double x2 = bbox.getX2() + 4.0;
+		double z1 = bbox.getZ1() - 2.0;
+		double z2 = bbox.getZ2() + 2.0;
+		double tileSize = 2.5;
+		boolean oddRow = true;
+		FlatShadingModel shadingModel = getTheme().getFloorShadingModel();
+		TextureMapHandle pictureMapHandle = new ImageTextureMapFileHandle("resources/toy/tile02-320x320.png");
+		for (double x = x1; x <= x2 - tileSize; x += tileSize) {
+			boolean oddTile = oddRow;
+			for (double z = z1; z <= z2 - tileSize; z += tileSize) {
+				BaseObject3D tile = new SimpleTexturedFace3D(shadingModel, pictureMapHandle,
+						new PictureRegion(320, 320));
+				tile.scaleX(tileSize / 2).scaleZ(tileSize / 2);
+				tile.translate(x + tileSize / 2, y, z + tileSize / 2);
+				floor.addPart(tile);
+				oddTile = !oddTile;
+			}
+			oddRow = !oddRow;
+		}
+		return floor;
 	}
 
 	protected BaseObject3D buildExtrusionWithRoundedSides(PolygonalObject3D shapeXY, double roundnessFactor,

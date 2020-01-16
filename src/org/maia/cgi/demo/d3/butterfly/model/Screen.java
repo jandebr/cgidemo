@@ -26,7 +26,7 @@ public class Screen extends PolygonalObject3D {
 	}
 
 	@Override
-	protected ObjectSurfacePoint3D probeSurfacePoint(Point3D positionInCamera, Scene scene, boolean applyShading) {
+	protected ObjectSurfacePoint3D sampleSurfacePoint(Point3D positionInCamera, Scene scene, boolean applyShading) {
 		ObjectSurfacePoint3D surfacePoint = null;
 		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
 		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);

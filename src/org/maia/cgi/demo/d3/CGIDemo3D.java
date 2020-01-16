@@ -2,6 +2,7 @@ package org.maia.cgi.demo.d3;
 
 import org.maia.cgi.demo.d3.butterfly.ButterflySceneBuilder;
 import org.maia.cgi.demo.d3.cube.CubeSceneBuilder;
+import org.maia.cgi.demo.d3.sphere.SphereSceneBuilder;
 import org.maia.cgi.demo.d3.toy.ToySceneBuilder;
 import org.maia.cgi.geometry.Geometry;
 import org.maia.cgi.gui.d3.renderer.DefaultRenderKit;
@@ -26,6 +27,7 @@ public class CGIDemo3D {
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
 		addAndShowToyScene(frame);
 		addCubesScene(frame);
+		addSpheresScene(frame);
 		addButterfliesScene(frame);
 	}
 
@@ -40,6 +42,13 @@ public class CGIDemo3D {
 		CubeSceneBuilder cubeBuilder = new CubeSceneBuilder();
 		RenderOptions options = cubeBuilder.getDefaultRenderOptions();
 		Scene scene = cubeBuilder.build(options);
+		addScene(frame, scene, options);
+	}
+
+	private void addSpheresScene(RenderFrame frame) {
+		SphereSceneBuilder sphereBuilder = new SphereSceneBuilder();
+		RenderOptions options = sphereBuilder.getDefaultRenderOptions();
+		Scene scene = sphereBuilder.build(options);
 		addScene(frame, scene, options);
 	}
 

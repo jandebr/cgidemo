@@ -13,8 +13,8 @@ public class HandsButterflyScene extends ButterflyScene {
 
 	private static ButterflyWingShadingModel wingShadingModel = new HandsButterflyWingShadingModel();
 
-	public HandsButterflyScene(Camera camera, int numberOfButterflies, File wingPicturesDirectory) {
-		super("Hands butterfly scene", camera, numberOfButterflies, wingPicturesDirectory);
+	public HandsButterflyScene(String name, Camera camera, int numberOfButterflies, File wingPicturesDirectory) {
+		super(name, camera, numberOfButterflies, wingPicturesDirectory);
 	}
 
 	@Override

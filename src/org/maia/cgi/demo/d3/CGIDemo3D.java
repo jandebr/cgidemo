@@ -2,6 +2,7 @@ package org.maia.cgi.demo.d3;
 
 import org.maia.cgi.demo.d3.butterfly.ButterflySceneBuilder;
 import org.maia.cgi.demo.d3.cube.CubeSceneBuilder;
+import org.maia.cgi.demo.d3.elephant.ElephantSceneBuilder;
 import org.maia.cgi.demo.d3.sphere.SphereSceneBuilder;
 import org.maia.cgi.demo.d3.toy.ToySceneBuilder;
 import org.maia.cgi.geometry.Geometry;
@@ -25,17 +26,25 @@ public class CGIDemo3D {
 	public void show() {
 		RenderKit kit = new DefaultRenderKit();
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
-		addAndShowToyScene(frame);
+		addAndShowElephantScene(frame);
+		addToyScene(frame);
 		addCubesScene(frame);
 		addSpheresScene(frame);
 		addButterfliesScene(frame);
 	}
 
-	private void addAndShowToyScene(RenderFrame frame) {
+	private void addAndShowElephantScene(RenderFrame frame) {
+		ElephantSceneBuilder elephantBuilder = new ElephantSceneBuilder();
+		RenderOptions options = elephantBuilder.getDefaultRenderOptions();
+		Scene scene = elephantBuilder.build(options);
+		addAndShowScene(frame, scene, options);
+	}
+
+	private void addToyScene(RenderFrame frame) {
 		ToySceneBuilder toyBuilder = new ToySceneBuilder();
 		RenderOptions options = toyBuilder.getDefaultRenderOptions();
 		Scene scene = toyBuilder.build(options);
-		addAndShowScene(frame, scene, options);
+		addScene(frame, scene, options);
 	}
 
 	private void addCubesScene(RenderFrame frame) {

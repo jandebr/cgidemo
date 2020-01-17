@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.maia.cgi.demo.d3.elephant.model.ElephantBuilder;
 import org.maia.cgi.demo.d3.elephant.model.ElephantTheme;
+import org.maia.cgi.geometry.Geometry;
 import org.maia.cgi.geometry.d3.Point3D;
 import org.maia.cgi.gui.d3.renderer.RenderOptions;
 import org.maia.cgi.model.d3.camera.Camera;
@@ -38,16 +39,16 @@ public class ElephantSceneBuilder extends SceneBuilder {
 	protected Camera createCamera(RenderOptions options) {
 		RevolvingCamera camera = createRevolvingCamera(Point3D.origin(), new Point3D(0, 0, 4.0), 50.0,
 				options.getAspectRatio(), 0.5, 10.0);
-		// camera.revolveLongitudinal(Geometry.degreesToRadians(10.0)).revolveLatitudinal(Geometry.degreesToRadians(15.0));
+		camera.revolveLongitudinal(Geometry.degreesToRadians(-30.0)).revolveLatitudinal(Geometry.degreesToRadians(15.0));
 		return camera;
 	}
 
 	@Override
 	protected Collection<Object3D> createTopLevelObjects(RenderOptions options) {
 		ElephantTheme theme = new ElephantTheme();
-		ElephantBuilder builder = new ElephantBuilder(theme, 0.2);
+		ElephantBuilder builder = new ElephantBuilder(theme, 1.0);
 		Collection<Object3D> objects = new Vector<Object3D>();
-		objects.add(builder.build());
+		objects.add(builder.build().translateY(-0.5));
 		return objects;
 	}
 

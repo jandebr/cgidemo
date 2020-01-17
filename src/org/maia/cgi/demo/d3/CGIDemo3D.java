@@ -26,24 +26,24 @@ public class CGIDemo3D {
 	public void show() {
 		RenderKit kit = new DefaultRenderKit();
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
-		addAndShowElephantScene(frame);
-		addToyScene(frame);
+		addAndShowToyScene(frame);
+		addElephantScene(frame);
 		addCubesScene(frame);
 		addSpheresScene(frame);
 		addButterfliesScene(frame);
 	}
 
-	private void addAndShowElephantScene(RenderFrame frame) {
-		ElephantSceneBuilder elephantBuilder = new ElephantSceneBuilder();
-		RenderOptions options = elephantBuilder.getDefaultRenderOptions();
-		Scene scene = elephantBuilder.build(options);
-		addAndShowScene(frame, scene, options);
-	}
-
-	private void addToyScene(RenderFrame frame) {
+	private void addAndShowToyScene(RenderFrame frame) {
 		ToySceneBuilder toyBuilder = new ToySceneBuilder();
 		RenderOptions options = toyBuilder.getDefaultRenderOptions();
 		Scene scene = toyBuilder.build(options);
+		addAndShowScene(frame, scene, options);
+	}
+
+	private void addElephantScene(RenderFrame frame) {
+		ElephantSceneBuilder elephantBuilder = new ElephantSceneBuilder();
+		RenderOptions options = elephantBuilder.getDefaultRenderOptions();
+		Scene scene = elephantBuilder.build(options);
 		addScene(frame, scene, options);
 	}
 

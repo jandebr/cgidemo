@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import org.maia.cgi.demo.d3.elephant.model.ElephantBuilder;
+import org.maia.cgi.demo.d3.elephant.model.ElephantTheme;
 import org.maia.cgi.geometry.Geometry;
 import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
@@ -36,10 +38,12 @@ public class ToyBuilder {
 		BaseObject3D floor = buildFloor(toy);
 		double yFloor = floor.getBoundingBox(CoordinateFrame.WORLD, null).getY1();
 		BaseObject3D cube = buildCube(yFloor);
+		BaseObject3D elephant = buildElephant(cube);
 		MultipartObject3D<BaseObject3D> model = new MultipartObject3D<BaseObject3D>();
 		model.addPart(toy);
 		model.addPart(floor);
 		model.addPart(cube);
+		model.addPart(elephant);
 		return model;
 	}
 
@@ -87,7 +91,11 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyWheelBackLeft() {
-		BaseObject3D wheel = buildToyWheel();
+		MultipartObject3D<BaseObject3D> wheel = new MultipartObject3D<BaseObject3D>();
+		wheel.addPart(buildToyWheel());
+		wheel.addPart(new SimpleTexturedFace3D(getTheme().getWheelShadingModel(), new ImageTextureMapFileHandle(
+				"resources/toy/trademark-450x450.png"), new PictureRegion(450, 450)).scale(0.2, 1.0, 0.2)
+				.rotateX(Geometry.degreesToRadians(90.0)).translateZ(0.38 / 2 + 0.0001));
 		wheel.translate(1.011 + 0.1, 0, -0.323);
 		return wheel;
 	}
@@ -484,6 +492,18 @@ public class ToyBuilder {
 				.rotateX(Geometry.degreesToRadians(90.0)).translateZ(size / 2 + 0.0001)
 				.rotateY(Geometry.degreesToRadians(-20.0)).translate(position.minus(Point3D.origin())));
 		return sides;
+	}
+
+	protected BaseObject3D buildElephant(BaseObject3D cube) {
+		Box3D bbox = cube.getBoundingBox(CoordinateFrame.WORLD, null);
+		double xc = 0.5 * bbox.getX1() + 0.5 * bbox.getX2();
+		double yc = bbox.getY2();
+		double zc = 0.3 * bbox.getZ1() + 0.7 * bbox.getZ2();
+		ElephantTheme theme = new ElephantTheme();
+		ElephantBuilder builder = new ElephantBuilder(theme, getPrecision());
+		BaseObject3D elephant = builder.build();
+		elephant.scale(0.45).rotateY(Geometry.degreesToRadians(-20.0)).translate(xc, yc, zc);
+		return elephant;
 	}
 
 	public ToyTheme getTheme() {

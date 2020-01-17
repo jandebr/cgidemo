@@ -34,9 +34,12 @@ public class ToyBuilder {
 	public BaseObject3D build() {
 		BaseObject3D toy = buildToy();
 		BaseObject3D floor = buildFloor(toy);
+		double yFloor = floor.getBoundingBox(CoordinateFrame.WORLD, null).getY1();
+		BaseObject3D cube = buildCube(yFloor);
 		MultipartObject3D<BaseObject3D> model = new MultipartObject3D<BaseObject3D>();
 		model.addPart(toy);
 		model.addPart(floor);
+		model.addPart(cube);
 		return model;
 	}
 
@@ -91,8 +94,8 @@ public class ToyBuilder {
 
 	protected BaseObject3D buildToyWheel() {
 		int vertexCount = 10 + (int) (170 * getPrecision());
-		BaseObject3D wheel = buildExtrusionWithRoundedSides(buildCircularShapeXY(1.0, vertexCount), 0.2, getTheme()
-				.getWheelColor(), getTheme().getWheelShadingModel());
+		BaseObject3D wheel = ModelBuilderUtils.buildExtrusionWithRoundedSides(ModelBuilderUtils.buildCircularShapeXY(
+				1.0, vertexCount), 0.2, getPrecision(), getTheme().getWheelColor(), getTheme().getWheelShadingModel());
 		wheel.scale(0.90, 0.90, 0.38);
 		return wheel;
 	}
@@ -101,16 +104,16 @@ public class ToyBuilder {
 		List<Point3D> path = new Vector<Point3D>(2);
 		path.add(new Point3D(-0.697, 0, 0.529));
 		path.add(new Point3D(-1.578, 0, 0.099));
-		return buildExtrusionAlongPath(buildCircularShapeXY(0.1, 24), path, getTheme().getWheelRodColor(), getTheme()
-				.getWheelRodShadingModel());
+		return ModelBuilderUtils.buildExtrusionAlongPath(ModelBuilderUtils.buildCircularShapeXY(0.1, 24), path,
+				getTheme().getWheelRodColor(), getTheme().getWheelRodShadingModel());
 	}
 
 	protected BaseObject3D buildToyWheelRodBack() {
 		List<Point3D> path = new Vector<Point3D>(2);
 		path.add(new Point3D(1.1, 0, -0.323));
 		path.add(new Point3D(1.1, 0, -1.303));
-		return buildExtrusionAlongPath(buildCircularShapeXY(0.1, 24), path, getTheme().getWheelRodColor(), getTheme()
-				.getWheelRodShadingModel());
+		return ModelBuilderUtils.buildExtrusionAlongPath(ModelBuilderUtils.buildCircularShapeXY(0.1, 24), path,
+				getTheme().getWheelRodColor(), getTheme().getWheelRodShadingModel());
 	}
 
 	protected BaseObject3D buildToyBodyPart1() {
@@ -145,8 +148,8 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyBodyPart(String shapeFilePath) {
-		return buildExtrusionWithRoundedSides(loadShapeXY(shapeFilePath), 0.2, getTheme().getBodyPartColor(),
-				getTheme().getBodyPartShadingModel());
+		return ModelBuilderUtils.buildExtrusionWithRoundedSides(ModelBuilderUtils.loadShapeXY(shapeFilePath), 0.2,
+				getPrecision(), getTheme().getBodyPartColor(), getTheme().getBodyPartShadingModel());
 	}
 
 	protected BaseObject3D buildToyBodyPartConnectionStrip() {
@@ -194,8 +197,8 @@ public class ToyBuilder {
 				double yc = Math.sqrt(radius * radius - xc * xc);
 				double anglec0 = Math.atan(yc / xc);
 				double anglec1 = 2 * Math.PI - anglec0;
-				polygon = (PolygonalObject3D) buildCircularSegmentXY(radius, anglec0, anglec1, vertexCount).translateZ(
-						z);
+				polygon = (PolygonalObject3D) ModelBuilderUtils.buildCircularSegmentXY(radius, anglec0, anglec1,
+						vertexCount).translateZ(z);
 				Point3D p0 = polygon.getVerticesInWorldCoordinates().get(0);
 				Point3D p1 = polygon.getVerticesInWorldCoordinates().get(polygon.getVertexCount() - 1);
 				if (!previousLayerCarvedOut && previousPolygon != null) {
@@ -210,7 +213,7 @@ public class ToyBuilder {
 				previousLayerCarvedOut = true;
 
 			} else {
-				polygon = (PolygonalObject3D) buildCircularShapeXY(radius, vertexCount).translateZ(z);
+				polygon = (PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(radius, vertexCount).translateZ(z);
 				if (previousLayerCarvedOut) {
 					Point3D p0 = polygon.getVerticesInWorldCoordinates().get(0);
 					Point3D q0 = previousPolygon.getVerticesInWorldCoordinates().get(0);
@@ -223,7 +226,7 @@ public class ToyBuilder {
 			layers.add(polygon);
 			previousPolygon = polygon;
 		}
-		BaseObject3D hull = buildLayeredObject(layers, true, color, shadingModel);
+		BaseObject3D hull = ModelBuilderUtils.buildLayeredObject(layers, true, color, shadingModel);
 		return assembleToyHead(hull, carveOutShape);
 	}
 
@@ -241,7 +244,8 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyNose() {
-		BaseObject3D nose = buildSphere(0.12, 24, getTheme().getNoseColor(), getTheme().getNoseShadingModel());
+		BaseObject3D nose = ModelBuilderUtils.buildSphere(0.12, 24, getTheme().getNoseColor(), getTheme()
+				.getNoseShadingModel());
 		nose.scale(1.0, 1.0, 0.2).translate(-0.05, 0, 1.0);
 		return nose;
 	}
@@ -257,9 +261,9 @@ public class ToyBuilder {
 		Point3D c1 = Point3D.interpolateBetween(p0, p1, 0.8);
 		double angleY = 2 * Math.PI - vertices.get(3).minus(vertices.get(0)).getLongitudeInRadians();
 		MultipartObject3D<BaseObject3D> eyes = new MultipartObject3D<BaseObject3D>();
-		eyes.addPart(buildSphere(0.1, 24, color, shadingModel).scale(2.0, 1.0, 0.2).rotateY(angleY)
+		eyes.addPart(ModelBuilderUtils.buildSphere(0.1, 24, color, shadingModel).scale(2.0, 1.0, 0.2).rotateY(angleY)
 				.translate(c0.getX(), c0.getY(), c0.getZ()));
-		eyes.addPart(buildSphere(0.1, 24, color, shadingModel).scale(2.0, 1.0, 0.2).rotateY(angleY)
+		eyes.addPart(ModelBuilderUtils.buildSphere(0.1, 24, color, shadingModel).scale(2.0, 1.0, 0.2).rotateY(angleY)
 				.translate(c1.getX(), c1.getY(), c1.getZ()));
 		return eyes;
 	}
@@ -285,12 +289,12 @@ public class ToyBuilder {
 	protected BaseObject3D buildToyMouth() {
 		Color color = getTheme().getMouthColor();
 		FlatShadingModel shadingModel = getTheme().getMouthShadingModel();
-		PolygonalObject3D shapeXY = buildCircularShapeXY(0.02, 6);
-		PolygonalObject3D pathObjectLeft = loadShapeXY("resources/toy/mouth.csv");
+		PolygonalObject3D shapeXY = ModelBuilderUtils.buildCircularShapeXY(0.02, 6);
+		PolygonalObject3D pathObjectLeft = ModelBuilderUtils.loadShapeXY("resources/toy/mouth.csv");
 		MultipartObject3D<BaseObject3D> mouth = new MultipartObject3D<BaseObject3D>();
 		for (int i = 0; i < 2; i++) {
-			PolygonalObject3D pathObject = cloneShape(pathObjectLeft);
-			normalizeBoundingBox(pathObject);
+			PolygonalObject3D pathObject = ModelBuilderUtils.cloneShape(pathObjectLeft);
+			ModelBuilderUtils.stretchToUnityBoundingBox(pathObject);
 			if (i == 0) {
 				// left
 				pathObject.translateX(-0.5).scaleX(0.23).scaleY(0.25).rotateZ(-Math.PI / 2).translateX(-0.4);
@@ -303,15 +307,16 @@ public class ToyBuilder {
 			for (Point3D p : path) {
 				p.setZ(Math.sqrt(1.0 - p.getX() * p.getX() - p.getY() * p.getY()));
 			}
-			mouth.addPart(buildExtrusionAlongPath(shapeXY, path, color, shadingModel));
+			mouth.addPart(ModelBuilderUtils.buildExtrusionAlongPath(shapeXY, path, color, shadingModel));
 		}
 		return mouth;
 	}
 
 	protected BaseObject3D buildToyNeckRing() {
 		int vertexCount = 10 + (int) (170 * getPrecision());
-		BaseObject3D ring = buildExtrusionWithRoundedSides(buildCircularShapeXY(1.0, vertexCount), 0.65, getTheme()
-				.getNeckRingColor(), getTheme().getNeckRingShadingModel());
+		BaseObject3D ring = ModelBuilderUtils.buildExtrusionWithRoundedSides(ModelBuilderUtils.buildCircularShapeXY(
+				1.0, vertexCount), 0.65, getPrecision(), getTheme().getNeckRingColor(), getTheme()
+				.getNeckRingShadingModel());
 		ring.scale(0.7, 0.7, 0.22);
 		ring.rotateX(Math.PI / 2).rotateZ(Geometry.degreesToRadians(26)).rotateY(Geometry.degreesToRadians(64.0));
 		ring.translate(-1.264, 1.11, 0.5745);
@@ -321,15 +326,15 @@ public class ToyBuilder {
 	protected BaseObject3D buildToyTail() {
 		int vertexCount = 10 + (int) (170 * getPrecision());
 		List<PolygonalObject3D> layers = new Vector<PolygonalObject3D>();
-		layers.add(buildCircularShapeXY(0.85, vertexCount));
-		layers.add((PolygonalObject3D) buildCircularShapeXY(1.35, vertexCount).translateZ(0.28));
-		layers.add((PolygonalObject3D) buildCircularShapeXY(1.70, vertexCount).translateZ(0.8));
-		layers.add((PolygonalObject3D) buildCircularShapeXY(1.88, vertexCount).translateZ(1.5));
-		layers.add((PolygonalObject3D) buildCircularShapeXY(1.95, vertexCount).translateZ(2));
-		layers.add((PolygonalObject3D) buildCircularShapeXY(0.58, vertexCount).translateZ(6.7));
-		layers.add((PolygonalObject3D) buildCircularShapeXY(0.45, vertexCount).translateZ(6.95));
-		layers.add((PolygonalObject3D) buildCircularShapeXY(0.25, vertexCount).translateZ(7.05));
-		BaseObject3D tail = buildLayeredObject(layers, false, getTheme().getTailColor(), getTheme()
+		layers.add(ModelBuilderUtils.buildCircularShapeXY(0.85, vertexCount));
+		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(1.35, vertexCount).translateZ(0.28));
+		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(1.70, vertexCount).translateZ(0.8));
+		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(1.88, vertexCount).translateZ(1.5));
+		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(1.95, vertexCount).translateZ(2));
+		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(0.58, vertexCount).translateZ(6.7));
+		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(0.45, vertexCount).translateZ(6.95));
+		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(0.25, vertexCount).translateZ(7.05));
+		BaseObject3D tail = ModelBuilderUtils.buildLayeredObject(layers, false, getTheme().getTailColor(), getTheme()
 				.getTailShadingModel());
 		tail.scale(0.15 / 1.95, 0.15 / 1.95, 0.76 / 7.05);
 		tail.rotateY(Geometry.degreesToRadians(90));
@@ -342,8 +347,8 @@ public class ToyBuilder {
 		List<Point3D> path = new Vector<Point3D>(2);
 		path.add(new Point3D(0.91, 0.89, -0.813));
 		path.add(new Point3D(1.06, 0.98, -0.813));
-		return buildExtrusionAlongPath(buildCircularShapeXY(0.02, 16), path, getTheme().getTailCordColor(), getTheme()
-				.getTailCordShadingModel());
+		return ModelBuilderUtils.buildExtrusionAlongPath(ModelBuilderUtils.buildCircularShapeXY(0.02, 16), path,
+				getTheme().getTailCordColor(), getTheme().getTailCordShadingModel());
 	}
 
 	protected BaseObject3D buildToyLeftEar() {
@@ -371,9 +376,9 @@ public class ToyBuilder {
 
 	protected BaseObject3D buildToyEarSide(Color color) {
 		FlatShadingModel shadingModel = getTheme().getEarShadingModel();
-		List<Point3D> innerVertices = loadVerticesXY("resources/toy/ear-inner.csv");
-		List<Point3D> midVertices = loadVerticesXY("resources/toy/ear-mid.csv");
-		List<Point3D> outerVertices = loadVerticesXY("resources/toy/ear-outer.csv");
+		List<Point3D> innerVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-inner.csv");
+		List<Point3D> midVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-mid.csv");
+		List<Point3D> outerVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-outer.csv");
 		List<Point3D> innerVerticesCC = new Vector<Point3D>(innerVertices);
 		Collections.reverse(innerVerticesCC);
 		MultipartObject3D<BaseObject3D> ear = new MultipartObject3D<BaseObject3D>();
@@ -416,7 +421,7 @@ public class ToyBuilder {
 		Box3D bbox = toy.getBoundingBox(CoordinateFrame.WORLD, null);
 		double y = bbox.getY1();
 		double x1 = bbox.getX1() - 4.0;
-		double x2 = bbox.getX2() + 4.0;
+		double x2 = bbox.getX2() + 3.0;
 		double z1 = bbox.getZ1() - 2.0;
 		double z2 = bbox.getZ2() + 2.0;
 		double tileSize = 2.5;
@@ -438,52 +443,47 @@ public class ToyBuilder {
 		return floor;
 	}
 
-	protected BaseObject3D buildExtrusionWithRoundedSides(PolygonalObject3D shapeXY, double roundnessFactor,
-			Color color, FlatShadingModel shadingModel) {
-		return ModelBuilderUtils.buildExtrusionWithRoundedSides(shapeXY, roundnessFactor, getPrecision(), color,
-				shadingModel);
+	protected BaseObject3D buildCube(double yFloor) {
+		double size = 1.0;
+		Point3D position = new Point3D(-1.8, yFloor + size / 2, 0.2);
+		MultipartObject3D<BaseObject3D> cube = new MultipartObject3D<BaseObject3D>();
+		cube.addPart(buildBaseCube(position, size));
+		cube.addPart(buildCubeSides(position, size));
+		return cube;
 	}
 
-	protected BaseObject3D buildExtrusionAlongPath(PolygonalObject3D shapeXY, List<Point3D> path, Color color,
-			FlatShadingModel shadingModel) {
-		return ModelBuilderUtils.buildExtrusionAlongPath(shapeXY, path, color, shadingModel);
+	protected BaseObject3D buildBaseCube(Point3D position, double size) {
+		double roundness = 0.05;
+		PolygonalObject3D face = ModelBuilderUtils.buildRoundedRectangleXY(size, size, size * roundness, size
+				* roundness, getPrecision());
+		BaseObject3D cube = ModelBuilderUtils.buildExtrusionWithRoundedSides(face, roundness, getPrecision(),
+				getTheme().getCubeColor(), getTheme().getCubeShadingModel());
+		// position
+		cube.rotateY(Geometry.degreesToRadians(-20.0));
+		cube.translate(position.minus(Point3D.origin()));
+		return cube;
 	}
 
-	protected BaseObject3D buildSphere(double radius, int vertexCount, Color color, FlatShadingModel shadingModel) {
-		return ModelBuilderUtils.buildSphere(radius, vertexCount, color, shadingModel);
-	}
-
-	protected BaseObject3D buildLayeredObject(List<PolygonalObject3D> layers, boolean triangularFaces, Color color,
-			FlatShadingModel shadingModel) {
-		return ModelBuilderUtils.buildLayeredObject(layers, triangularFaces, color, shadingModel);
-	}
-
-	protected PolygonalObject3D buildCircularShapeXY(double radius, int vertexCount) {
-		return ModelBuilderUtils.buildCircularShapeXY(radius, vertexCount);
-	}
-
-	protected PolygonalObject3D buildCircularSegmentXY(double radius, double angleFrom, double angleTo, int vertexCount) {
-		return ModelBuilderUtils.buildCircularSegmentXY(radius, angleFrom, angleTo, vertexCount);
-	}
-
-	protected void normalizeBoundingBox(BaseObject3D object) {
-		ModelBuilderUtils.stretchToUnityBoundingBox(object);
-	}
-
-	protected SimpleFace3D convertToFace(PolygonalObject3D polygon, Color color, FlatShadingModel shadingModel) {
-		return ModelBuilderUtils.convertToFace(polygon, color, shadingModel);
-	}
-
-	protected PolygonalObject3D cloneShape(PolygonalObject3D polygon) {
-		return ModelBuilderUtils.cloneShape(polygon);
-	}
-
-	protected PolygonalObject3D loadShapeXY(String filePath) {
-		return ModelBuilderUtils.loadShapeXY(filePath);
-	}
-
-	protected List<Point3D> loadVerticesXY(String filePath) {
-		return ModelBuilderUtils.loadVerticesXY(filePath);
+	protected BaseObject3D buildCubeSides(Point3D position, double size) {
+		FlatShadingModel shadingModel = getTheme().getFloorShadingModel();
+		MultipartObject3D<BaseObject3D> sides = new MultipartObject3D<BaseObject3D>();
+		// top side
+		sides.addPart((BaseObject3D) new SimpleTexturedFace3D(shadingModel, new ImageTextureMapFileHandle(
+				"resources/toy/cube-side02-80x80.png"), new PictureRegion(80, 80)).scale(size * 0.45)
+				.translateY(size / 2 + 0.0001).rotateY(Geometry.degreesToRadians(-20.0))
+				.translate(position.minus(Point3D.origin())));
+		// right side
+		sides.addPart((BaseObject3D) new SimpleTexturedFace3D(shadingModel, new ImageTextureMapFileHandle(
+				"resources/toy/cube-side01-80x80.png"), new PictureRegion(80, 80)).scale(size * 0.45)
+				.rotateX(Geometry.degreesToRadians(90.0)).rotateY(Geometry.degreesToRadians(90.0))
+				.translateX(size / 2 + 0.0001).rotateY(Geometry.degreesToRadians(-20.0))
+				.translate(position.minus(Point3D.origin())));
+		// front side
+		sides.addPart((BaseObject3D) new SimpleTexturedFace3D(shadingModel, new ImageTextureMapFileHandle(
+				"resources/toy/cube-side03-80x80.png"), new PictureRegion(80, 80)).scale(size * 0.45)
+				.rotateX(Geometry.degreesToRadians(90.0)).translateZ(size / 2 + 0.0001)
+				.rotateY(Geometry.degreesToRadians(-20.0)).translate(position.minus(Point3D.origin())));
+		return sides;
 	}
 
 	public ToyTheme getTheme() {

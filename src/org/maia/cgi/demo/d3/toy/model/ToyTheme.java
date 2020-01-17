@@ -53,11 +53,11 @@ public class ToyTheme {
 
 	private FlatShadingModel earShadingModel;
 
-	private Color floorTileOddColor;
-
-	private Color floorTileEvenColor;
-
 	private FlatShadingModel floorShadingModel;
+
+	private Color cubeColor;
+
+	private FlatShadingModel cubeShadingModel;
 
 	public ToyTheme() {
 		this.bodyPartColor = new Color(237, 217, 157);
@@ -83,9 +83,9 @@ public class ToyTheme {
 		this.earInsideColor = new Color(232, 212, 197);
 		this.earOutsideColor = new Color(107, 49, 7);
 		this.earShadingModel = new FlatShadingModelImpl(0.4, 1.0);
-		this.floorTileOddColor = new Color(237, 230, 223);
-		this.floorTileEvenColor = new Color(181, 158, 136);
 		this.floorShadingModel = new FlatShadingModelImpl(1.0, 1.0);
+		this.cubeColor = new Color(247, 247, 233);
+		this.cubeShadingModel = new FlatShadingModelImpl(0.9, 1.0);
 	}
 
 	public Color getWheelColor() {
@@ -272,28 +272,28 @@ public class ToyTheme {
 		this.earShadingModel = earShadingModel;
 	}
 
-	public Color getFloorTileOddColor() {
-		return floorTileOddColor;
-	}
-
-	public void setFloorTileOddColor(Color floorTileOddColor) {
-		this.floorTileOddColor = floorTileOddColor;
-	}
-
-	public Color getFloorTileEvenColor() {
-		return floorTileEvenColor;
-	}
-
-	public void setFloorTileEvenColor(Color floorTileEvenColor) {
-		this.floorTileEvenColor = floorTileEvenColor;
-	}
-
 	public FlatShadingModel getFloorShadingModel() {
 		return floorShadingModel;
 	}
 
 	public void setFloorShadingModel(FlatShadingModel floorShadingModel) {
 		this.floorShadingModel = floorShadingModel;
+	}
+
+	public Color getCubeColor() {
+		return cubeColor;
+	}
+
+	public void setCubeColor(Color cubeColor) {
+		this.cubeColor = cubeColor;
+	}
+
+	public FlatShadingModel getCubeShadingModel() {
+		return cubeShadingModel;
+	}
+
+	public void setCubeShadingModel(FlatShadingModel cubeShadingModel) {
+		this.cubeShadingModel = cubeShadingModel;
 	}
 
 }

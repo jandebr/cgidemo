@@ -433,20 +433,16 @@ public class ToyBuilder {
 		double z1 = bbox.getZ1() - 2.0;
 		double z2 = bbox.getZ2() + 2.0;
 		double tileSize = 2.5;
-		boolean oddRow = true;
 		FlatShadingModel shadingModel = getTheme().getFloorShadingModel();
 		TextureMapHandle pictureMapHandle = new ImageTextureMapFileHandle("resources/toy/tile02-320x320.png");
 		for (double x = x1; x <= x2 - tileSize; x += tileSize) {
-			boolean oddTile = oddRow;
 			for (double z = z1; z <= z2 - tileSize; z += tileSize) {
 				BaseObject3D tile = new SimpleTexturedFace3D(shadingModel, pictureMapHandle,
 						new PictureRegion(320, 320));
 				tile.scaleX(tileSize / 2).scaleZ(tileSize / 2);
 				tile.translate(x + tileSize / 2, y, z + tileSize / 2);
 				floor.addPart(tile);
-				oddTile = !oddTile;
 			}
-			oddRow = !oddRow;
 		}
 		return floor;
 	}

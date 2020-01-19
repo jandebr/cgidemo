@@ -219,7 +219,6 @@ public class ToyBuilder {
 					carveOutShape.addPart(new SimpleFace3D(color, shadingModel, p0, p1, q1, q0));
 				}
 				previousLayerCarvedOut = true;
-
 			} else {
 				polygon = (PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(radius, vertexCount).translateZ(z);
 				if (previousLayerCarvedOut) {

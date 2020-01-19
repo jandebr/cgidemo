@@ -39,7 +39,8 @@ public class ElephantSceneBuilder extends SceneBuilder {
 	protected Camera createCamera(RenderOptions options) {
 		RevolvingCamera camera = createRevolvingCamera(Point3D.origin(), new Point3D(0, 0, 4.0), 50.0,
 				options.getAspectRatio(), 0.5, 10.0);
-		camera.revolveLongitudinal(Geometry.degreesToRadians(-30.0)).revolveLatitudinal(Geometry.degreesToRadians(15.0));
+		camera.revolveLongitudinal(Geometry.degreesToRadians(-30.0))
+				.revolveLatitudinal(Geometry.degreesToRadians(15.0));
 		return camera;
 	}
 
@@ -48,7 +49,7 @@ public class ElephantSceneBuilder extends SceneBuilder {
 		ElephantTheme theme = new ElephantTheme();
 		ElephantBuilder builder = new ElephantBuilder(theme, 1.0);
 		Collection<Object3D> objects = new Vector<Object3D>();
-		objects.add(builder.build().translateY(-0.5));
+		objects.add(builder.build().translateY(-0.7).scale(1.5));
 		return objects;
 	}
 

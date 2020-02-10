@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.maia.cgi.geometry.Geometry;
-import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
-import org.maia.cgi.model.d3.CoordinateFrame;
 import org.maia.cgi.model.d3.ModelBuilderUtils;
 import org.maia.cgi.model.d3.object.BaseObject3D;
 import org.maia.cgi.model.d3.object.MultipartObject3D;
@@ -30,14 +28,6 @@ public class ElephantBuilder {
 		model.addPart(buildBody());
 		model.addPart(buildTail().translate(-0.3, 0.1, 0));
 		return model;
-	}
-
-	protected BaseObject3D buildBoundingBox(BaseObject3D object) {
-		Box3D bbox = object.getBoundingBox(CoordinateFrame.WORLD, null);
-		BaseObject3D cube = ModelBuilderUtils.buildBox(bbox.getWidth(), bbox.getHeight(), bbox.getDepth(), getTheme()
-				.getBodyPartColor(), getTheme().getBodyPartShadingModel());
-		cube.translate(bbox.getCenter().minus(Point3D.origin()));
-		return cube;
 	}
 
 	protected BaseObject3D buildHead() {

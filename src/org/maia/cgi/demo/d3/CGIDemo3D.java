@@ -2,6 +2,7 @@ package org.maia.cgi.demo.d3;
 
 import org.maia.cgi.demo.d3.butterfly.ButterflySceneBuilder;
 import org.maia.cgi.demo.d3.cube.CubeSceneBuilder;
+import org.maia.cgi.demo.d3.curve.CurveSceneBuilder;
 import org.maia.cgi.demo.d3.elephant.ElephantSceneBuilder;
 import org.maia.cgi.demo.d3.sphere.SphereSceneBuilder;
 import org.maia.cgi.demo.d3.toy.ToySceneBuilder;
@@ -20,7 +21,8 @@ public class CGIDemo3D {
 
 	public static void main(String[] args) {
 		TextureMapRegistry.getInstance().setCapacity(Integer.MAX_VALUE); // suppress warnings about capacity
-		new CGIDemo3D().show();
+		CGIDemo3D demo = new CGIDemo3D();
+		demo.show();
 	}
 
 	public void show() {
@@ -30,6 +32,7 @@ public class CGIDemo3D {
 		addToyScene(frame);
 		addCubesScene(frame);
 		addSpheresScene(frame);
+		addCurveScene(frame);
 		addButterfliesScene(frame);
 	}
 
@@ -58,6 +61,13 @@ public class CGIDemo3D {
 		SphereSceneBuilder sphereBuilder = new SphereSceneBuilder();
 		RenderOptions options = sphereBuilder.getDefaultRenderOptions();
 		Scene scene = sphereBuilder.build(options);
+		addScene(frame, scene, options);
+	}
+
+	private void addCurveScene(RenderFrame frame) {
+		CurveSceneBuilder curveBuilder = new CurveSceneBuilder();
+		RenderOptions options = curveBuilder.getDefaultRenderOptions();
+		Scene scene = curveBuilder.build(options);
 		addScene(frame, scene, options);
 	}
 

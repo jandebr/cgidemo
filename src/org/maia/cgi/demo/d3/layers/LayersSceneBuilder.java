@@ -74,7 +74,7 @@ public class LayersSceneBuilder extends SceneBuilder {
 	}
 
 	private BaseObject3D createSpriteLayer(String imageFilename, int imageWidth, int imageHeight) {
-		String imagePath = "D:/My Persgroep/Video Area/Demos/Demo 44/Thumbnails/" + imageFilename;
+		String imagePath = "resources/layers/thumbnails/" + imageFilename;
 		FlatShadingModel shadingModel = new FlatShadingModelImpl(1.0, 1.0);
 		TextureMapHandle pictureMapHandle = new ImageTextureMapFileHandle(imagePath);
 		BaseObject3D layer = new SimpleTexturedFace3D(shadingModel, pictureMapHandle,
@@ -95,8 +95,8 @@ public class LayersSceneBuilder extends SceneBuilder {
 
 	private BaseObject3D createStreamingLayer(String imageFilename, String transparencyFilename, int imageWidth,
 			int imageHeight) {
-		String imagePath = "D:/My Persgroep/Video Area/Demos/Demo 46/gCDN/" + imageFilename;
-		String transparencyPath = "D:/My Persgroep/Video Area/Demos/Demo 46/gCDN/" + transparencyFilename;
+		String imagePath = "resources/layers/gCDN/" + imageFilename;
+		String transparencyPath = "resources/layers/gCDN/" + transparencyFilename;
 		FlatShadingModel shadingModel = new FlatShadingModelImpl(1.0, 1.0);
 		TextureMapHandle pictureMapHandle = new ImageTextureMapFileHandle(imagePath);
 		TextureMapHandle transparencyMapHandle = new ImageTextureMapFileHandle(transparencyPath);
@@ -108,7 +108,7 @@ public class LayersSceneBuilder extends SceneBuilder {
 	}
 
 	private BaseObject3D buildFloor() {
-		String imagePath = "D:/My Persgroep/Video Area/Demos/Demo 44/Thumbnails/wood3.jpg";
+		String imagePath = "resources/layers/thumbnails/wood3.jpg";
 		MultipartObject3D<BaseObject3D> floor = new MultipartObject3D<BaseObject3D>();
 		double y = -1.0;
 		double x1 = -8.0;

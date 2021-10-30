@@ -49,12 +49,12 @@ public class ElephantBuilder {
 				getTheme().getBodyPartShadingModel());
 		MultipartObject3D<BaseObject3D> head = new MultipartObject3D<BaseObject3D>();
 		head.addPart(headPart);
-		head.addPart(new SimpleFace3D(getTheme().getEyeColor(), getTheme().getEyeShadingModel(),
-				section.getVerticesInWorldCoordinates()).scale(0.7, 0.7, 1.0).translateZ(0.0001));
+		head.addPart(new SimpleFace3D(getTheme().getEyeColor(), getTheme().getEyeShadingModel(), section
+				.getVerticesInWorldCoordinates()).scale(0.7, 0.7, 1.0).translateZ(0.0001));
 		head.addPart(buildEye().translate(0.7 * 1.75, 0, 4.75));
 		head.addPart(buildEye().translate(-0.7 * 1.75, 0, 4.75));
 		head.addPart(buildEar().rotateY(Geometry.degreesToRadians(-70.0)).translate(-3.0, -0.5, 1.0));
-		head.addPart(buildEar().rotateY(Geometry.degreesToRadians(-120.0)).translate(3.0, -0.5, 1.0));
+		head.addPart(buildEar().rotateY(Geometry.degreesToRadians(-110.0)).translate(3.0, -0.5, 1.0));
 		head.translateZ(-1.5).scale(0.1).rotateX(Geometry.degreesToRadians(40.0))
 				.rotateY(Geometry.degreesToRadians(90.0));
 		return head;
@@ -72,12 +72,16 @@ public class ElephantBuilder {
 		PolygonalObject3D section = ModelBuilderUtils.buildCircularSegmentXY(1.0, angleFrom, angleTo, vertexCount);
 		BaseObject3D outerEar = ModelBuilderUtils.buildExtrusion(section, thickness, getTheme().getOuterEarColor(),
 				getTheme().getEarShadingModel());
-		BaseObject3D innerEar = (BaseObject3D) new SimpleFace3D(getTheme().getInnerEarColor(),
-				getTheme().getEarShadingModel(), section.getVerticesInWorldCoordinates()).scale(0.7).translateX(0.15)
-						.translateZ(thickness + 0.0001);
+		BaseObject3D innerEar1 = (BaseObject3D) new SimpleFace3D(getTheme().getInnerEarColor(), getTheme()
+				.getEarShadingModel(), section.getVerticesInWorldCoordinates()).scale(0.7).translateX(0.15)
+				.translateZ(thickness + 0.0001);
+		BaseObject3D innerEar2 = (BaseObject3D) new SimpleFace3D(getTheme().getInnerEarColor(), getTheme()
+				.getEarShadingModel(), section.getVerticesInWorldCoordinates()).scale(0.7).translateX(0.15)
+				.translateZ(-0.0001);
 		MultipartObject3D<BaseObject3D> ear = new MultipartObject3D<BaseObject3D>();
 		ear.addPart(outerEar);
-		ear.addPart(innerEar);
+		ear.addPart(innerEar1);
+		ear.addPart(innerEar2);
 		ear.translateZ(-thickness / 2);
 		ear.scale(3.5);
 		return ear;
@@ -124,10 +128,9 @@ public class ElephantBuilder {
 		PolygonalObject3D section = ModelBuilderUtils.buildCircularShapeXY(1.0, vertexCount);
 		BaseObject3D outerFoot = ModelBuilderUtils.buildExtrusion(section, length, getTheme().getOuterFootColor(),
 				getTheme().getFootShadingModel());
-		BaseObject3D innerFoot = (BaseObject3D) new SimpleFace3D(getTheme().getInnerFootColor(),
-				getTheme().getFootShadingModel(),
-				ModelBuilderUtils.buildCircularShapeXY(0.7, vertexCount).getVerticesInWorldCoordinates())
-						.translateZ(length + 0.0001);
+		BaseObject3D innerFoot = (BaseObject3D) new SimpleFace3D(getTheme().getInnerFootColor(), getTheme()
+				.getFootShadingModel(), ModelBuilderUtils.buildCircularShapeXY(0.7, vertexCount)
+				.getVerticesInWorldCoordinates()).translateZ(length + 0.0001);
 		MultipartObject3D<BaseObject3D> foot = new MultipartObject3D<BaseObject3D>();
 		foot.addPart(outerFoot);
 		foot.addPart(innerFoot);

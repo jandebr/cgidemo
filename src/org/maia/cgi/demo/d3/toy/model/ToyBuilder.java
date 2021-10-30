@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import org.maia.cgi.demo.d3.elephant.model.ElephantBuilder;
+import org.maia.cgi.demo.d3.elephant.model.ElephantTheme;
 import org.maia.cgi.geometry.Geometry;
 import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
@@ -36,10 +38,12 @@ public class ToyBuilder {
 		BaseObject3D floor = buildFloor(toy);
 		double yFloor = floor.getBoundingBox(CoordinateFrame.WORLD, null).getY1();
 		BaseObject3D cube = buildCube(yFloor);
+		BaseObject3D elephant = buildElephant(cube);
 		MultipartObject3D<BaseObject3D> model = new MultipartObject3D<BaseObject3D>();
 		model.addPart(toy);
 		model.addPart(floor);
 		model.addPart(cube);
+		model.addPart(elephant);
 		return model;
 	}
 
@@ -87,7 +91,11 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyWheelBackLeft() {
-		BaseObject3D wheel = buildToyWheel();
+		MultipartObject3D<BaseObject3D> wheel = new MultipartObject3D<BaseObject3D>();
+		wheel.addPart(buildToyWheel());
+		wheel.addPart(new SimpleTexturedFace3D(getTheme().getWheelShadingModel(), new ImageTextureMapFileHandle(
+				"resources/toy/trademark-450x450.png"), new PictureRegion(450, 450)).scale(0.2, 1.0, 0.2)
+				.rotateX(Geometry.degreesToRadians(90.0)).translateZ(0.38 / 2 + 0.0001));
 		wheel.translate(1.011 + 0.1, 0, -0.323);
 		return wheel;
 	}
@@ -211,7 +219,6 @@ public class ToyBuilder {
 					carveOutShape.addPart(new SimpleFace3D(color, shadingModel, p0, p1, q1, q0));
 				}
 				previousLayerCarvedOut = true;
-
 			} else {
 				polygon = (PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(radius, vertexCount).translateZ(z);
 				if (previousLayerCarvedOut) {
@@ -425,20 +432,16 @@ public class ToyBuilder {
 		double z1 = bbox.getZ1() - 2.0;
 		double z2 = bbox.getZ2() + 2.0;
 		double tileSize = 2.5;
-		boolean oddRow = true;
 		FlatShadingModel shadingModel = getTheme().getFloorShadingModel();
 		TextureMapHandle pictureMapHandle = new ImageTextureMapFileHandle("resources/toy/tile02-320x320.png");
 		for (double x = x1; x <= x2 - tileSize; x += tileSize) {
-			boolean oddTile = oddRow;
 			for (double z = z1; z <= z2 - tileSize; z += tileSize) {
 				BaseObject3D tile = new SimpleTexturedFace3D(shadingModel, pictureMapHandle,
 						new PictureRegion(320, 320));
 				tile.scaleX(tileSize / 2).scaleZ(tileSize / 2);
 				tile.translate(x + tileSize / 2, y, z + tileSize / 2);
 				floor.addPart(tile);
-				oddTile = !oddTile;
 			}
-			oddRow = !oddRow;
 		}
 		return floor;
 	}
@@ -484,6 +487,18 @@ public class ToyBuilder {
 				.rotateX(Geometry.degreesToRadians(90.0)).translateZ(size / 2 + 0.0001)
 				.rotateY(Geometry.degreesToRadians(-20.0)).translate(position.minus(Point3D.origin())));
 		return sides;
+	}
+
+	protected BaseObject3D buildElephant(BaseObject3D cube) {
+		Box3D bbox = cube.getBoundingBox(CoordinateFrame.WORLD, null);
+		double xc = 0.5 * bbox.getX1() + 0.5 * bbox.getX2();
+		double yc = bbox.getY2();
+		double zc = 0.3 * bbox.getZ1() + 0.7 * bbox.getZ2();
+		ElephantTheme theme = new ElephantTheme();
+		ElephantBuilder builder = new ElephantBuilder(theme, getPrecision());
+		BaseObject3D elephant = builder.build();
+		elephant.scale(0.45).rotateY(Geometry.degreesToRadians(-20.0)).translate(xc, yc, zc);
+		return elephant;
 	}
 
 	public ToyTheme getTheme() {

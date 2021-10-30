@@ -49,7 +49,7 @@ public class ToySceneBuilder extends SceneBuilder {
 	@Override
 	protected Collection<Object3D> createTopLevelObjects(RenderOptions options) {
 		ToyTheme toyTheme = new ToyTheme();
-		ToyBuilder toyBuilder = new ToyBuilder(toyTheme, 0.2);
+		ToyBuilder toyBuilder = new ToyBuilder(toyTheme, 1.0);
 		Collection<Object3D> objects = new Vector<Object3D>();
 		objects.add(toyBuilder.build().translate(0.1, -0.1, -3.5));
 		return objects;

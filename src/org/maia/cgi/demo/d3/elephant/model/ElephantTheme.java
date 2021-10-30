@@ -38,8 +38,8 @@ public class ElephantTheme {
 		this.bodyPartShadingModel = new FlatShadingModelImpl(0.9, 1.0);
 		this.eyeColor = new Color(22, 23, 28);
 		this.eyeShadingModel = new FlatShadingModelImpl(0.5, 6.0);
-		this.outerEarColor = new Color(81, 111, 140);
-		this.innerEarColor = new Color(173, 214, 255);
+		this.outerEarColor = new Color(217, 91, 82);
+		this.innerEarColor = new Color(255, 184, 179);
 		this.earShadingModel = new FlatShadingModelImpl(0.9, 1.0);
 		this.outerFootColor = bodyPartColor;
 		this.innerFootColor = innerEarColor;

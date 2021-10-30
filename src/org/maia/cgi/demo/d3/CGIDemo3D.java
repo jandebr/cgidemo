@@ -2,9 +2,12 @@ package org.maia.cgi.demo.d3;
 
 import org.maia.cgi.demo.d3.butterfly.ButterflySceneBuilder;
 import org.maia.cgi.demo.d3.cube.CubeSceneBuilder;
+import org.maia.cgi.demo.d3.curve.CurveSceneBuilder;
 import org.maia.cgi.demo.d3.elephant.ElephantSceneBuilder;
+import org.maia.cgi.demo.d3.layers.LayersSceneBuilder;
 import org.maia.cgi.demo.d3.sphere.SphereSceneBuilder;
 import org.maia.cgi.demo.d3.toy.ToySceneBuilder;
+import org.maia.cgi.demo.d3.transit.TransitSceneBuilder;
 import org.maia.cgi.geometry.Geometry;
 import org.maia.cgi.gui.d3.renderer.DefaultRenderKit;
 import org.maia.cgi.gui.d3.renderer.RenderFrame;
@@ -20,24 +23,42 @@ public class CGIDemo3D {
 
 	public static void main(String[] args) {
 		TextureMapRegistry.getInstance().setCapacity(Integer.MAX_VALUE); // suppress warnings about capacity
-		new CGIDemo3D().show();
+		CGIDemo3D demo = new CGIDemo3D();
+		demo.show();
 	}
 
 	public void show() {
 		RenderKit kit = new DefaultRenderKit();
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
-		addAndShowElephantScene(frame);
+		addAndShowTransitScene(frame);
+		addLayersScene(frame);
+		addElephantScene(frame);
 		addToyScene(frame);
 		addCubesScene(frame);
 		addSpheresScene(frame);
+		addCurveScene(frame);
 		addButterfliesScene(frame);
 	}
 
-	private void addAndShowElephantScene(RenderFrame frame) {
+	private void addAndShowTransitScene(RenderFrame frame) {
+		TransitSceneBuilder transitBuilder = new TransitSceneBuilder();
+		RenderOptions options = transitBuilder.getDefaultRenderOptions();
+		Scene scene = transitBuilder.build(options);
+		addAndShowScene(frame, scene, options);
+	}
+
+	private void addLayersScene(RenderFrame frame) {
+		LayersSceneBuilder layersBuilder = new LayersSceneBuilder();
+		RenderOptions options = layersBuilder.getDefaultRenderOptions();
+		Scene scene = layersBuilder.build(options);
+		addScene(frame, scene, options);
+	}
+
+	private void addElephantScene(RenderFrame frame) {
 		ElephantSceneBuilder elephantBuilder = new ElephantSceneBuilder();
 		RenderOptions options = elephantBuilder.getDefaultRenderOptions();
 		Scene scene = elephantBuilder.build(options);
-		addAndShowScene(frame, scene, options);
+		addScene(frame, scene, options);
 	}
 
 	private void addToyScene(RenderFrame frame) {
@@ -58,6 +79,13 @@ public class CGIDemo3D {
 		SphereSceneBuilder sphereBuilder = new SphereSceneBuilder();
 		RenderOptions options = sphereBuilder.getDefaultRenderOptions();
 		Scene scene = sphereBuilder.build(options);
+		addScene(frame, scene, options);
+	}
+
+	private void addCurveScene(RenderFrame frame) {
+		CurveSceneBuilder curveBuilder = new CurveSceneBuilder();
+		RenderOptions options = curveBuilder.getDefaultRenderOptions();
+		Scene scene = curveBuilder.build(options);
 		addScene(frame, scene, options);
 	}
 

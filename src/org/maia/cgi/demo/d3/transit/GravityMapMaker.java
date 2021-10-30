@@ -1,4 +1,4 @@
-package org.maia.cgi.demo.d3;
+package org.maia.cgi.demo.d3.transit;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

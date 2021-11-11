@@ -233,7 +233,7 @@ public class ToyBuilder {
 			layers.add(polygon);
 			previousPolygon = polygon;
 		}
-		BaseObject3D hull = ModelBuilderUtils.buildLayeredObject(layers, true, color, shadingModel);
+		BaseObject3D hull = ModelBuilderUtils.buildLayeredObject(layers, true, true, color, shadingModel);
 		return assembleToyHead(hull, carveOutShape);
 	}
 
@@ -341,8 +341,8 @@ public class ToyBuilder {
 		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(0.58, vertexCount).translateZ(6.7));
 		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(0.45, vertexCount).translateZ(6.95));
 		layers.add((PolygonalObject3D) ModelBuilderUtils.buildCircularShapeXY(0.25, vertexCount).translateZ(7.05));
-		BaseObject3D tail = ModelBuilderUtils.buildLayeredObject(layers, false, getTheme().getTailColor(), getTheme()
-				.getTailShadingModel());
+		BaseObject3D tail = ModelBuilderUtils.buildLayeredObject(layers, true, false, getTheme().getTailColor(),
+				getTheme().getTailShadingModel());
 		tail.scale(0.15 / 1.95, 0.15 / 1.95, 0.76 / 7.05);
 		tail.rotateY(Geometry.degreesToRadians(90));
 		tail.rotateZ(Geometry.degreesToRadians(12));

@@ -45,8 +45,8 @@ public class ElephantBuilder {
 			section.scaleX(scaleX).translateZ(z);
 			layers.add(section);
 		}
-		BaseObject3D headPart = ModelBuilderUtils.buildLayeredObject(layers, false, getTheme().getBodyPartColor(),
-				getTheme().getBodyPartShadingModel());
+		BaseObject3D headPart = ModelBuilderUtils.buildLayeredObject(layers, true, false,
+				getTheme().getBodyPartColor(), getTheme().getBodyPartShadingModel());
 		MultipartObject3D<BaseObject3D> head = new MultipartObject3D<BaseObject3D>();
 		head.addPart(headPart);
 		head.addPart(new SimpleFace3D(getTheme().getEyeColor(), getTheme().getEyeShadingModel(), section
@@ -106,7 +106,7 @@ public class ElephantBuilder {
 			section.scale(1.1).translateZ(z);
 			layers.add(section);
 		}
-		BaseObject3D bodyPart = ModelBuilderUtils.buildLayeredObject(layers, true, getTheme().getBodyPartColor(),
+		BaseObject3D bodyPart = ModelBuilderUtils.buildLayeredObject(layers, true, true, getTheme().getBodyPartColor(),
 				getTheme().getBodyPartShadingModel());
 		MultipartObject3D<BaseObject3D> body = new MultipartObject3D<BaseObject3D>();
 		body.addPart(bodyPart);

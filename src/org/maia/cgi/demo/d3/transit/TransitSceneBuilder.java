@@ -178,7 +178,7 @@ public class TransitSceneBuilder extends SceneBuilder {
 			}
 		}
 		// Specials
-		grid[24][3] = getResourcePath("frames/vod-specials/x.png");
+		grid[24][3] = getResourcePath("frames/x.png");
 		return grid;
 	}
 

@@ -1,5 +1,6 @@
 package org.maia.cgi.demo.d3;
 
+import org.maia.cgi.demo.d3.axis.AxisSceneBuilder;
 import org.maia.cgi.demo.d3.butterfly.ButterflySceneBuilder;
 import org.maia.cgi.demo.d3.cube.CubeSceneBuilder;
 import org.maia.cgi.demo.d3.curve.CurveSceneBuilder;
@@ -31,6 +32,7 @@ public class CGIDemo3D {
 		RenderKit kit = new DefaultRenderKit();
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
 		addAndShowTransitScene(frame);
+		addAxisScene(frame);
 		addLayersScene(frame);
 		addElephantScene(frame);
 		addToyScene(frame);
@@ -45,6 +47,13 @@ public class CGIDemo3D {
 		RenderOptions options = transitBuilder.getDefaultRenderOptions();
 		Scene scene = transitBuilder.build(options);
 		addAndShowScene(frame, scene, options);
+	}
+
+	private void addAxisScene(RenderFrame frame) {
+		AxisSceneBuilder axisBuilder = new AxisSceneBuilder();
+		RenderOptions options = axisBuilder.getDefaultRenderOptions();
+		Scene scene = axisBuilder.build(options);
+		addScene(frame, scene, options);
 	}
 
 	private void addLayersScene(RenderFrame frame) {

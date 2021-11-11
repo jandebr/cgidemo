@@ -8,12 +8,11 @@ import java.util.Vector;
 import org.maia.cgi.compose.Compositing;
 import org.maia.cgi.geometry.d2.Point2D;
 
-public class GravityMapMaker {
+public class GravityMapGenerator {
 
 	public static void main(String[] args) {
-		GravityMapMaker gmm = new GravityMapMaker();
-		BufferedImage map = gmm.makeMap(640, 480);
-		Compositing.writeImageToFile(map, "resources/gravity.png");
+		BufferedImage map = new GravityMapGenerator().makeMap(640, 480);
+		Compositing.writeImageToFile(map, "resources/transit/gravity/gravity6.png");
 	}
 
 	private BufferedImage makeMap(int width, int height) {

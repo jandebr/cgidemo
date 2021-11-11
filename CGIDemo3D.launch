@@ -20,5 +20,5 @@
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.maia.cgi.demo.d3.CGIDemo3D"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="CGIDemo"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1g"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1g -DrenderThreads=2"/>
 </launchConfiguration>

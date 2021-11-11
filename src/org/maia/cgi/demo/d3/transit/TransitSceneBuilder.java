@@ -215,7 +215,6 @@ public class TransitSceneBuilder extends SceneBuilder {
 			Vector3D v = T.transform(new Point3D(radius, 0, 0)).minus(Point3D.origin());
 			Point3D positionInWorld = center.plus(v);
 			lights.add(new SpotLight(positionInWorld, 0.8));
-			System.out.println("Spotlight at " + positionInWorld);
 		}
 		lights.add(new SpotLight(center, 0.8));
 		// lights.add(new AmbientLight(0.2));
@@ -226,8 +225,8 @@ public class TransitSceneBuilder extends SceneBuilder {
 	protected ColorDepthBuffer createBackdrop(Scene scene, RenderOptions options) {
 		Box3D bbox = scene.getBoundingBox(CoordinateFrame.CAMERA);
 		double farDepth = -bbox.getZ1();
-		return new ColorDepthBuffer(
-				Compositing.readImageFromFile(getResourcePath("backdrops/stars4-1920x1080.png")), farDepth + 1.0);
+		return new ColorDepthBuffer(Compositing.readImageFromFile(getResourcePath("backdrops/stars4-1920x1080.png")),
+				farDepth + 1.0);
 	}
 
 	private String getResourcePath(String relativePath) {

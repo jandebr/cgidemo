@@ -31,8 +31,8 @@ public class CGIDemo3D {
 	public void show() {
 		RenderKit kit = new DefaultRenderKit();
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
-		addAndShowTransitScene(frame);
-		addAxisScene(frame);
+		addAndShowAxisScene(frame);
+		addTransitScene(frame);
 		addLayersScene(frame);
 		addElephantScene(frame);
 		addToyScene(frame);
@@ -42,17 +42,17 @@ public class CGIDemo3D {
 		addButterfliesScene(frame);
 	}
 
-	private void addAndShowTransitScene(RenderFrame frame) {
-		TransitSceneBuilder transitBuilder = new TransitSceneBuilder();
-		RenderOptions options = transitBuilder.getDefaultRenderOptions();
-		Scene scene = transitBuilder.build(options);
-		addAndShowScene(frame, scene, options);
-	}
-
-	private void addAxisScene(RenderFrame frame) {
+	private void addAndShowAxisScene(RenderFrame frame) {
 		AxisSceneBuilder axisBuilder = new AxisSceneBuilder();
 		RenderOptions options = axisBuilder.getDefaultRenderOptions();
 		Scene scene = axisBuilder.build(options);
+		addAndShowScene(frame, scene, options);
+	}
+
+	private void addTransitScene(RenderFrame frame) {
+		TransitSceneBuilder transitBuilder = new TransitSceneBuilder();
+		RenderOptions options = transitBuilder.getDefaultRenderOptions();
+		Scene scene = transitBuilder.build(options);
 		addScene(frame, scene, options);
 	}
 

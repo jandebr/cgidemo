@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import org.maia.cgi.demo.d3.sphere.model.SphereBuilder;
 import org.maia.cgi.geometry.d3.Point3D;
-import org.maia.cgi.gui.d3.renderer.RenderOptions;
 import org.maia.cgi.model.d3.camera.Camera;
 import org.maia.cgi.model.d3.camera.RevolvingCamera;
 import org.maia.cgi.model.d3.light.AmbientLight;
@@ -15,6 +14,7 @@ import org.maia.cgi.model.d3.light.SpotLight;
 import org.maia.cgi.model.d3.object.Object3D;
 import org.maia.cgi.model.d3.scene.Scene;
 import org.maia.cgi.model.d3.scene.SceneBuilder;
+import org.maia.cgi.render.d3.RenderOptions;
 
 public class SphereSceneBuilder extends SceneBuilder {
 

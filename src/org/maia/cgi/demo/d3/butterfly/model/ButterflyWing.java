@@ -11,6 +11,7 @@ import org.maia.cgi.model.d3.object.ObjectSurfacePoint3D;
 import org.maia.cgi.model.d3.object.ObjectSurfacePoint3DImpl;
 import org.maia.cgi.model.d3.object.PolygonalObject3D;
 import org.maia.cgi.model.d3.scene.Scene;
+import org.maia.cgi.render.d3.RenderOptions;
 import org.maia.cgi.shading.d2.Mask;
 import org.maia.cgi.shading.d2.TextureMap;
 import org.maia.cgi.shading.d2.TextureMapHandle;
@@ -80,7 +81,8 @@ public class ButterflyWing extends PolygonalObject3D {
 	}
 
 	@Override
-	protected ObjectSurfacePoint3D sampleSurfacePoint(Point3D positionInCamera, Scene scene, boolean applyShading) {
+	protected ObjectSurfacePoint3D sampleSurfacePoint(Point3D positionInCamera, Scene scene, RenderOptions options,
+			boolean applyShading) {
 		ObjectSurfacePoint3D surfacePoint = null;
 		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
 		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);
@@ -90,7 +92,7 @@ public class ButterflyWing extends PolygonalObject3D {
 			if (color != null) {
 				if (applyShading) {
 					color = getShadingModel().applyShading(color, positionInCamera, maskPosition, this,
-							(ButterflyScene) scene);
+							(ButterflyScene) scene, options);
 				}
 				surfacePoint = new ObjectSurfacePoint3DImpl(this, positionInCamera, color);
 			}

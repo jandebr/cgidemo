@@ -6,6 +6,7 @@ import org.maia.cgi.compose.Compositing;
 import org.maia.cgi.demo.d3.butterfly.model.ButterflyScene;
 import org.maia.cgi.demo.d3.butterfly.model.ButterflyWing;
 import org.maia.cgi.geometry.d3.Point3D;
+import org.maia.cgi.render.d3.RenderOptions;
 
 public class MedialaanButterflyWingShadingModel extends VtmGoButterflyWingShadingModel {
 
@@ -14,7 +15,7 @@ public class MedialaanButterflyWingShadingModel extends VtmGoButterflyWingShadin
 
 	@Override
 	public Color applyShading(Color surfaceColor, Point3D surfacePositionInCamera, Point3D maskPosition,
-			ButterflyWing wing, ButterflyScene scene) {
+			ButterflyWing wing, ButterflyScene scene, RenderOptions options) {
 		Color color = surfaceColor;
 		color = applyWingLuminance(color, maskPosition, wing);
 		color = applyWingContour(color, maskPosition, wing);

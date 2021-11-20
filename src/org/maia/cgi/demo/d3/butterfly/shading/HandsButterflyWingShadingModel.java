@@ -8,6 +8,7 @@ import org.maia.cgi.demo.d3.butterfly.model.ButterflyScene;
 import org.maia.cgi.demo.d3.butterfly.model.ButterflyWing;
 import org.maia.cgi.geometry.d3.Point3D;
 import org.maia.cgi.geometry.d3.Vector3D;
+import org.maia.cgi.render.d3.RenderOptions;
 
 public class HandsButterflyWingShadingModel extends VtmGoButterflyWingShadingModel {
 
@@ -16,12 +17,12 @@ public class HandsButterflyWingShadingModel extends VtmGoButterflyWingShadingMod
 
 	@Override
 	public Color applyShading(Color surfaceColor, Point3D surfacePositionInCamera, Point3D maskPosition,
-			ButterflyWing wing, ButterflyScene scene) {
+			ButterflyWing wing, ButterflyScene scene, RenderOptions options) {
 		Color color = surfaceColor;
 		color = applyLighting(color, wing, scene);
 		color = applyWingLuminance(color, maskPosition, wing);
 		color = applyWingContour(color, maskPosition, wing);
-		color = applyDarknessByDepth(color, surfacePositionInCamera, scene);
+		color = applyDarknessByDepth(color, surfacePositionInCamera, scene, options);
 		color = applyTransparency(color, maskPosition);
 		return color;
 	}
@@ -40,9 +41,10 @@ public class HandsButterflyWingShadingModel extends VtmGoButterflyWingShadingMod
 		return color;
 	}
 
-	private Color applyDarknessByDepth(Color color, Point3D surfacePositionInCamera, ButterflyScene scene) {
-		DepthFunction df = scene.getRenderParameters().getDarknessDepthFunction();
-		if (df != null) {
+	private Color applyDarknessByDepth(Color color, Point3D surfacePositionInCamera, ButterflyScene scene,
+			RenderOptions options) {
+		DepthFunction df = scene.getDarknessDepthFunction();
+		if (options.isDepthDarknessEnabled() && df != null) {
 			double depth = -surfacePositionInCamera.getZ();
 			double factor = -(0.7 * df.eval(depth));
 			return Compositing.adjustBrightness(color, factor);

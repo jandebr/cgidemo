@@ -4,12 +4,8 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
 
-import org.maia.cgi.compose.d3.DepthFunction;
-import org.maia.cgi.compose.d3.SigmoidDepthFunction;
 import org.maia.cgi.geometry.Geometry;
-import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
-import org.maia.cgi.model.d3.CoordinateFrame;
 import org.maia.cgi.model.d3.camera.Camera;
 import org.maia.cgi.model.d3.camera.RevolvingCamera;
 import org.maia.cgi.model.d3.light.AmbientLight;
@@ -77,8 +73,8 @@ public class LayersSceneBuilder extends SceneBuilder {
 		String imagePath = "resources/layers/thumbnails/" + imageFilename;
 		FlatShadingModel shadingModel = new FlatShadingModelImpl(1.0, 1.0);
 		TextureMapHandle pictureMapHandle = new ImageTextureMapFileHandle(imagePath);
-		BaseObject3D layer = new SimpleTexturedFace3D(shadingModel, pictureMapHandle,
-				new PictureRegion(imageWidth, imageHeight));
+		BaseObject3D layer = new SimpleTexturedFace3D(shadingModel, pictureMapHandle, new PictureRegion(imageWidth,
+				imageHeight));
 		double imageRatio = imageWidth * 1.0 / imageHeight;
 		layer.scale(imageRatio, 1.0, 1.0).rotateX(Geometry.degreesToRadians(90));
 		return layer;
@@ -100,8 +96,8 @@ public class LayersSceneBuilder extends SceneBuilder {
 		FlatShadingModel shadingModel = new FlatShadingModelImpl(1.0, 1.0);
 		TextureMapHandle pictureMapHandle = new ImageTextureMapFileHandle(imagePath);
 		TextureMapHandle transparencyMapHandle = new ImageTextureMapFileHandle(transparencyPath);
-		BaseObject3D layer = new SimpleTexturedFace3D(shadingModel, pictureMapHandle,
-				new PictureRegion(imageWidth, imageHeight), null, transparencyMapHandle, null);
+		BaseObject3D layer = new SimpleTexturedFace3D(shadingModel, pictureMapHandle, new PictureRegion(imageWidth,
+				imageHeight), null, transparencyMapHandle, null);
 		double imageRatio = imageWidth * 1.0 / imageHeight;
 		layer.scale(imageRatio, 1.0, 1.0).rotateX(Geometry.degreesToRadians(90));
 		return layer;
@@ -128,14 +124,6 @@ public class LayersSceneBuilder extends SceneBuilder {
 			}
 		}
 		return floor;
-	}
-
-	@Override
-	protected DepthFunction createDarknessDepthFunction(Scene scene, RenderOptions options) {
-		Box3D bbox = scene.getBoundingBox(CoordinateFrame.CAMERA);
-		double nearDepth = -bbox.getZ2();
-		double farDepth = -bbox.getZ1();
-		return SigmoidDepthFunction.createFilter(nearDepth, farDepth, 0.6, 0.4);
 	}
 
 	@Override

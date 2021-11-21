@@ -7,13 +7,9 @@ import java.util.Collections;
 import java.util.Vector;
 
 import org.maia.cgi.compose.d3.DepthBlurParameters;
-import org.maia.cgi.compose.d3.DepthFunction;
-import org.maia.cgi.compose.d3.SigmoidDepthFunction;
 import org.maia.cgi.demo.d3.butterfly.model.HandsButterflyScene;
-import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
 import org.maia.cgi.geometry.d3.Vector3D;
-import org.maia.cgi.model.d3.CoordinateFrame;
 import org.maia.cgi.model.d3.camera.Camera;
 import org.maia.cgi.model.d3.camera.RevolvingCamera;
 import org.maia.cgi.model.d3.light.AmbientLight;
@@ -70,14 +66,6 @@ public class ButterflySceneBuilder extends SceneBuilder {
 		lights.add(new AmbientLight(0.2));
 		lights.add(new InboundLight(new Vector3D(0, -1.0, -0.2).getUnitVector()));
 		return lights;
-	}
-
-	@Override
-	protected DepthFunction createDarknessDepthFunction(Scene scene, RenderOptions options) {
-		Box3D bbox = scene.getBoundingBox(CoordinateFrame.CAMERA);
-		double nearDepth = -bbox.getZ2();
-		double farDepth = -bbox.getZ1();
-		return SigmoidDepthFunction.createFilter(nearDepth, farDepth, 0.6, 0.4);
 	}
 
 	@Override

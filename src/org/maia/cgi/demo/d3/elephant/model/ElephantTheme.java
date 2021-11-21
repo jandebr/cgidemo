@@ -2,8 +2,8 @@ package org.maia.cgi.demo.d3.elephant.model;
 
 import java.awt.Color;
 
-import org.maia.cgi.shading.d3.FlatShadingModel;
-import org.maia.cgi.shading.d3.FlatShadingModelImpl;
+import org.maia.cgi.render.d3.shading.FlatShadingModel;
+import org.maia.cgi.render.d3.shading.FlatShadingModelImpl;
 
 public class ElephantTheme {
 

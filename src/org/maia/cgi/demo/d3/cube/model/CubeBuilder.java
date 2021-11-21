@@ -8,8 +8,8 @@ import org.maia.cgi.geometry.d3.Point3D;
 import org.maia.cgi.model.d3.object.BaseObject3D;
 import org.maia.cgi.model.d3.object.MultipartObject3D;
 import org.maia.cgi.model.d3.object.SimpleFace3D;
-import org.maia.cgi.shading.d3.FlatShadingModel;
-import org.maia.cgi.shading.d3.FlatShadingModelImpl;
+import org.maia.cgi.render.d3.shading.FlatShadingModel;
+import org.maia.cgi.render.d3.shading.FlatShadingModelImpl;
 
 public class CubeBuilder {
 

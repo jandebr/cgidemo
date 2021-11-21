@@ -23,8 +23,8 @@ import org.maia.cgi.model.d3.object.SimpleFace3D;
 import org.maia.cgi.model.d3.scene.Scene;
 import org.maia.cgi.model.d3.scene.SceneBuilder;
 import org.maia.cgi.render.d3.RenderOptions;
-import org.maia.cgi.shading.d3.FlatShadingModel;
-import org.maia.cgi.shading.d3.FlatShadingModelImpl;
+import org.maia.cgi.render.d3.shading.FlatShadingModel;
+import org.maia.cgi.render.d3.shading.FlatShadingModelImpl;
 
 public class CurveSceneBuilder extends SceneBuilder {
 

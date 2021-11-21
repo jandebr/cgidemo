@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import org.maia.cgi.model.d3.ModelBuilderUtils;
 import org.maia.cgi.model.d3.object.BaseObject3D;
-import org.maia.cgi.shading.d3.FlatShadingModelImpl;
+import org.maia.cgi.render.d3.shading.FlatShadingModelImpl;
 
 public class SphereBuilder {
 

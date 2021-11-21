@@ -6,7 +6,7 @@ import org.maia.cgi.demo.d3.butterfly.model.ButterflyScene;
 import org.maia.cgi.demo.d3.butterfly.model.ButterflyWing;
 import org.maia.cgi.geometry.d3.Point3D;
 import org.maia.cgi.render.d3.RenderOptions;
-import org.maia.cgi.shading.d3.ShadingModel;
+import org.maia.cgi.render.d3.shading.ShadingModel;
 
 public interface ButterflyWingShadingModel extends ShadingModel {
 

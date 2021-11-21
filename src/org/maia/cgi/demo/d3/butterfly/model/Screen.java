@@ -5,9 +5,9 @@ import java.awt.Color;
 import org.maia.cgi.geometry.d3.Point3D;
 import org.maia.cgi.model.d3.object.PolygonalObject3D;
 import org.maia.cgi.model.d3.scene.Scene;
-import org.maia.cgi.shading.d2.TextureMap;
-import org.maia.cgi.shading.d2.TextureMapHandle;
-import org.maia.cgi.shading.d2.TextureMapRegistry;
+import org.maia.cgi.render.d2.TextureMap;
+import org.maia.cgi.render.d2.TextureMapHandle;
+import org.maia.cgi.render.d2.TextureMapRegistry;
 import org.maia.cgi.transform.d3.TransformMatrix;
 
 public class Screen extends PolygonalObject3D {

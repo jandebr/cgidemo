@@ -18,9 +18,9 @@ import org.maia.cgi.model.d3.object.PolygonalObject3D;
 import org.maia.cgi.model.d3.object.SimpleFace3D;
 import org.maia.cgi.model.d3.object.SimpleTexturedFace3D;
 import org.maia.cgi.model.d3.object.SimpleTexturedFace3D.PictureRegion;
-import org.maia.cgi.shading.d2.ImageTextureMapFileHandle;
-import org.maia.cgi.shading.d2.TextureMapHandle;
-import org.maia.cgi.shading.d3.FlatShadingModel;
+import org.maia.cgi.render.d2.ImageTextureMapFileHandle;
+import org.maia.cgi.render.d2.TextureMapHandle;
+import org.maia.cgi.render.d3.shading.FlatShadingModel;
 
 public class ToyBuilder {
 

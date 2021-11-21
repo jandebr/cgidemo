@@ -14,8 +14,8 @@ import org.maia.cgi.gui.d3.renderer.DefaultRenderKit;
 import org.maia.cgi.gui.d3.renderer.RenderFrame;
 import org.maia.cgi.gui.d3.renderer.RenderKit;
 import org.maia.cgi.model.d3.scene.Scene;
+import org.maia.cgi.render.d2.TextureMapRegistry;
 import org.maia.cgi.render.d3.RenderOptions;
-import org.maia.cgi.shading.d2.TextureMapRegistry;
 
 public class CGIDemo3D {
 

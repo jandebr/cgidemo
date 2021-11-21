@@ -3,11 +3,8 @@ package org.maia.cgi.demo.d3.butterfly.model;
 import java.awt.Color;
 
 import org.maia.cgi.geometry.d3.Point3D;
-import org.maia.cgi.model.d3.object.ObjectSurfacePoint3D;
-import org.maia.cgi.model.d3.object.ObjectSurfacePoint3DImpl;
 import org.maia.cgi.model.d3.object.PolygonalObject3D;
 import org.maia.cgi.model.d3.scene.Scene;
-import org.maia.cgi.render.d3.RenderOptions;
 import org.maia.cgi.shading.d2.TextureMap;
 import org.maia.cgi.shading.d2.TextureMapHandle;
 import org.maia.cgi.shading.d2.TextureMapRegistry;
@@ -27,16 +24,10 @@ public class Screen extends PolygonalObject3D {
 	}
 
 	@Override
-	protected ObjectSurfacePoint3D sampleSurfacePoint(Point3D positionInCamera, Scene scene, RenderOptions options,
-			boolean applyShading) {
-		ObjectSurfacePoint3D surfacePoint = null;
+	protected Color sampleBaseColor(Point3D positionInCamera, Scene scene) {
 		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
 		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);
-		Color color = getScreenPicture().sampleColor(picturePosition.getX(), picturePosition.getZ());
-		if (color != null) {
-			surfacePoint = new ObjectSurfacePoint3DImpl(this, positionInCamera, color);
-		}
-		return surfacePoint;
+		return getScreenPicture().sampleColor(picturePosition.getX(), picturePosition.getZ());
 	}
 
 	private Point3D fromObjectToPictureCoordinates(Point3D point) {

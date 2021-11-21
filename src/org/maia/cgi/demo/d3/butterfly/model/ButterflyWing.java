@@ -8,7 +8,6 @@ import org.maia.cgi.geometry.d3.LineSegment3D;
 import org.maia.cgi.geometry.d3.Plane3D;
 import org.maia.cgi.geometry.d3.Point3D;
 import org.maia.cgi.model.d3.object.ObjectSurfacePoint3D;
-import org.maia.cgi.model.d3.object.ObjectSurfacePoint3DImpl;
 import org.maia.cgi.model.d3.object.PolygonalObject3D;
 import org.maia.cgi.model.d3.scene.Scene;
 import org.maia.cgi.render.d3.RenderOptions;
@@ -81,23 +80,30 @@ public class ButterflyWing extends PolygonalObject3D {
 	}
 
 	@Override
-	protected ObjectSurfacePoint3D sampleSurfacePoint(Point3D positionInCamera, Scene scene, RenderOptions options,
-			boolean applyShading) {
-		ObjectSurfacePoint3D surfacePoint = null;
+	protected boolean containsPointOnPlane(Point3D positionInCamera, Scene scene) {
+		if (!super.containsPointOnPlane(positionInCamera, scene))
+			return false;
 		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
 		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);
 		Point3D maskPosition = fromPictureToMaskCoordinates(picturePosition);
-		if (!getWingMask().isMasked(maskPosition.getX(), maskPosition.getZ())) {
-			Color color = getWingPicture().sampleColor(picturePosition.getX(), picturePosition.getZ());
-			if (color != null) {
-				if (applyShading) {
-					color = getShadingModel().applyShading(color, positionInCamera, maskPosition, this,
-							(ButterflyScene) scene, options);
-				}
-				surfacePoint = new ObjectSurfacePoint3DImpl(this, positionInCamera, color);
-			}
-		}
-		return surfacePoint;
+		return !getWingMask().isMasked(maskPosition.getX(), maskPosition.getZ());
+	}
+
+	@Override
+	protected Color sampleBaseColor(Point3D positionInCamera, Scene scene) {
+		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
+		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);
+		return getWingPicture().sampleColor(picturePosition.getX(), picturePosition.getZ());
+	}
+
+	@Override
+	protected void applySurfacePointShading(ObjectSurfacePoint3D surfacePoint, Scene scene, RenderOptions options) {
+		Point3D positionInCamera = surfacePoint.getPositionInCamera();
+		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
+		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);
+		Point3D maskPosition = fromPictureToMaskCoordinates(picturePosition);
+		surfacePoint.setColor(getShadingModel().applyShading(surfacePoint.getColor(), positionInCamera, maskPosition,
+				this, (ButterflyScene) scene, options));
 	}
 
 	private Point3D fromObjectToPictureCoordinates(Point3D point) {

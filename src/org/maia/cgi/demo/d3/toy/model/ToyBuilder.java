@@ -156,8 +156,8 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyBodyPart(String shapeFilePath) {
-		return ModelBuilderUtils.buildExtrusionWithRoundedSides(ModelBuilderUtils.loadShapeXY(shapeFilePath), 0.2,
-				getPrecision(), getTheme().getBodyPartColor(), getTheme().getBodyPartShadingModel());
+		return ModelBuilderUtils.buildExtrusionWithRoundedSides(ModelBuilderUtils.loadShapeXY(shapeFilePath, false),
+				0.2, getPrecision(), getTheme().getBodyPartColor(), getTheme().getBodyPartShadingModel());
 	}
 
 	protected BaseObject3D buildToyBodyPartConnectionStrip() {
@@ -297,7 +297,7 @@ public class ToyBuilder {
 		Color color = getTheme().getMouthColor();
 		FlatShadingModel shadingModel = getTheme().getMouthShadingModel();
 		PolygonalObject3D shapeXY = ModelBuilderUtils.buildCircularShapeXY(0.02, 6);
-		PolygonalObject3D pathObjectLeft = ModelBuilderUtils.loadShapeXY("resources/toy/mouth.csv");
+		PolygonalObject3D pathObjectLeft = ModelBuilderUtils.loadShapeXY("resources/toy/mouth.csv", false);
 		MultipartObject3D<BaseObject3D> mouth = new MultipartObject3D<BaseObject3D>();
 		for (int i = 0; i < 2; i++) {
 			PolygonalObject3D pathObject = ModelBuilderUtils.cloneShape(pathObjectLeft);
@@ -376,20 +376,20 @@ public class ToyBuilder {
 
 	protected BaseObject3D buildToyEar() {
 		MultipartObject3D<BaseObject3D> ear = new MultipartObject3D<BaseObject3D>();
-		ear.addPart(buildToyEarSide(getTheme().getEarInsideColor()));
-		ear.addPart(buildToyEarSide(getTheme().getEarOutsideColor()).translateZ(0.001));
+		ear.addPart(buildToyEarSide(getTheme().getEarInsideColor(), getTheme().getEarInsideShadingModel()));
+		ear.addPart(buildToyEarSide(getTheme().getEarOutsideColor(), getTheme().getEarOutsideShadingModel())
+				.translateZ(0.002));
 		return ear;
 	}
 
-	protected BaseObject3D buildToyEarSide(Color color) {
-		FlatShadingModel shadingModel = getTheme().getEarShadingModel();
+	protected BaseObject3D buildToyEarSide(Color color, FlatShadingModel shadingModel) {
 		List<Point3D> innerVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-inner.csv");
 		List<Point3D> midVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-mid.csv");
 		List<Point3D> outerVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-outer.csv");
 		List<Point3D> innerVerticesCC = new Vector<Point3D>(innerVertices);
 		Collections.reverse(innerVerticesCC);
-		MultipartObject3D<BaseObject3D> ear = new MultipartObject3D<BaseObject3D>();
-		ear.addPart(new SimpleFace3D(color, shadingModel, innerVerticesCC));
+		MultipartObject3D<SimpleFace3D> ear = new MultipartObject3D<SimpleFace3D>();
+		ear.addParts(ModelBuilderUtils.convertToFaces(new PolygonalObject3D(innerVerticesCC), color, shadingModel));
 		int n = midVertices.size();
 		for (int k = 0; k <= 1; k++) {
 			List<Point3D> v1 = (k == 0 ? innerVertices : midVertices);

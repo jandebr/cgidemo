@@ -7,8 +7,8 @@ import org.maia.cgi.demo.d3.butterfly.shading.ButterflyWingShadingModel;
 import org.maia.cgi.geometry.d3.LineSegment3D;
 import org.maia.cgi.geometry.d3.Plane3D;
 import org.maia.cgi.geometry.d3.Point3D;
+import org.maia.cgi.model.d3.object.ConvexPolygonalObject3D;
 import org.maia.cgi.model.d3.object.ObjectSurfacePoint3D;
-import org.maia.cgi.model.d3.object.PolygonalObject3D;
 import org.maia.cgi.model.d3.scene.Scene;
 import org.maia.cgi.render.d2.Mask;
 import org.maia.cgi.render.d2.TextureMap;
@@ -17,7 +17,7 @@ import org.maia.cgi.render.d2.TextureMapRegistry;
 import org.maia.cgi.render.d3.RenderOptions;
 import org.maia.cgi.transform.d3.TransformMatrix;
 
-public class ButterflyWing extends PolygonalObject3D {
+public class ButterflyWing extends ConvexPolygonalObject3D {
 
 	private TransformMatrix objectToPictureTransformMatrix;
 

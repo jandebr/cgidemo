@@ -51,7 +51,9 @@ public class ToyTheme {
 
 	private Color earInsideColor;
 
-	private FlatShadingModel earShadingModel;
+	private FlatShadingModel earInsideShadingModel;
+
+	private FlatShadingModel earOutsideShadingModel;
 
 	private FlatShadingModel floorShadingModel;
 
@@ -81,8 +83,9 @@ public class ToyTheme {
 		this.tailCordColor = new Color(240, 240, 240);
 		this.tailCordShadingModel = new FlatShadingModelImpl(0.9, 4.0);
 		this.earInsideColor = new Color(232, 212, 197);
+		this.earInsideShadingModel = new FlatShadingModelImpl(1.0, 1.0);
 		this.earOutsideColor = new Color(107, 49, 7);
-		this.earShadingModel = new FlatShadingModelImpl(0.4, 1.0);
+		this.earOutsideShadingModel = new FlatShadingModelImpl(0.4, 1.0);
 		this.floorShadingModel = new FlatShadingModelImpl(1.0, 1.0);
 		this.cubeColor = new Color(247, 247, 233);
 		this.cubeShadingModel = new FlatShadingModelImpl(0.9, 1.0);
@@ -264,12 +267,20 @@ public class ToyTheme {
 		this.earInsideColor = earInsideColor;
 	}
 
-	public FlatShadingModel getEarShadingModel() {
-		return earShadingModel;
+	public FlatShadingModel getEarInsideShadingModel() {
+		return earInsideShadingModel;
 	}
 
-	public void setEarShadingModel(FlatShadingModel earShadingModel) {
-		this.earShadingModel = earShadingModel;
+	public void setEarInsideShadingModel(FlatShadingModel earInsideShadingModel) {
+		this.earInsideShadingModel = earInsideShadingModel;
+	}
+
+	public FlatShadingModel getEarOutsideShadingModel() {
+		return earOutsideShadingModel;
+	}
+
+	public void setEarOutsideShadingModel(FlatShadingModel earOutsideShadingModel) {
+		this.earOutsideShadingModel = earOutsideShadingModel;
 	}
 
 	public FlatShadingModel getFloorShadingModel() {

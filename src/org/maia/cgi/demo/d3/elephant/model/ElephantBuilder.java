@@ -31,10 +31,12 @@ public class ElephantBuilder {
 	}
 
 	protected BaseObject3D buildHead() {
-		int vertexCount = 10 + (int) (170 * getPrecision());
-		List<PolygonalObject3D> layers = new Vector<PolygonalObject3D>(40);
+		int nv = (int) Math.round(40 + 60 * getPrecision());
+		int vertexCount = (int) Math.round(10 + 170 * getPrecision());
+		List<PolygonalObject3D> layers = new Vector<PolygonalObject3D>(nv);
 		PolygonalObject3D section = null;
-		for (Point3D coord : ModelBuilderUtils.loadVerticesXY("resources/elephant/head.csv")) {
+		for (Point3D coord : ModelBuilderUtils.smoothenPlanarPolyline(
+				ModelBuilderUtils.loadVerticesXY("resources/elephant/head.csv"), nv)) {
 			double radius = Math.abs(coord.getY());
 			double z = coord.getX();
 			double r = z / 13.5;
@@ -88,10 +90,12 @@ public class ElephantBuilder {
 	}
 
 	protected BaseObject3D buildBody() {
-		int vertexCount = 10 + (int) (170 * getPrecision());
+		int nv = (int) Math.round(40 + 60 * getPrecision());
+		int vertexCount = (int) Math.round(10 + 170 * getPrecision());
 		List<PolygonalObject3D> layers = new Vector<PolygonalObject3D>(20);
 		double radiusCutoff = 2.0;
-		for (Point3D coord : ModelBuilderUtils.loadVerticesXY("resources/elephant/body.csv")) {
+		for (Point3D coord : ModelBuilderUtils.smoothenPlanarPolyline(
+				ModelBuilderUtils.loadVerticesXY("resources/elephant/body.csv"), nv)) {
 			double radius = Math.abs(coord.getX());
 			double z = Math.abs(coord.getY());
 			radius *= 0.9 + 0.1 * Math.sin(z / 9.0 * Math.PI);
@@ -123,7 +127,7 @@ public class ElephantBuilder {
 	}
 
 	protected BaseObject3D buildFoot() {
-		int vertexCount = 10 + (int) (170 * getPrecision());
+		int vertexCount = (int) Math.round(10 + 170 * getPrecision());
 		double length = 3.0;
 		PolygonalObject3D section = ModelBuilderUtils.buildCircularShapeXY(1.0, vertexCount);
 		BaseObject3D outerFoot = ModelBuilderUtils.buildExtrusion(section, length, getTheme().getOuterFootColor(),
@@ -148,7 +152,7 @@ public class ElephantBuilder {
 	}
 
 	protected BaseObject3D buildTail() {
-		int n = 10 + (int) (40 * getPrecision());
+		int n = (int) Math.round(10 + 40 * getPrecision());
 		double angleFrom = Geometry.degreesToRadians(70);
 		double angleTo = Geometry.degreesToRadians(360);
 		List<Point3D> path = new Vector<Point3D>(n);

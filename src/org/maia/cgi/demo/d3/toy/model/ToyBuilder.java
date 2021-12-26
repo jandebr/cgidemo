@@ -156,8 +156,11 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyBodyPart(String shapeFilePath) {
-		return ModelBuilderUtils.buildExtrusionWithRoundedSides(ModelBuilderUtils.loadShapeXY(shapeFilePath, false),
-				0.2, getPrecision(), getTheme().getBodyPartColor(), getTheme().getBodyPartShadingModel());
+		int n = (int) Math.round(20 + 80 * getPrecision());
+		PolygonalObject3D shapeXY = ModelBuilderUtils.smoothenPolygonalShape(
+				ModelBuilderUtils.loadShapeXY(shapeFilePath, false), n);
+		return ModelBuilderUtils.buildExtrusionWithRoundedSides(shapeXY, 0.2, getPrecision(), getTheme()
+				.getBodyPartColor(), getTheme().getBodyPartShadingModel());
 	}
 
 	protected BaseObject3D buildToyBodyPartConnectionStrip() {
@@ -182,7 +185,7 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyHead() {
-		int nlayers = 10 + (int) (50 * getPrecision());
+		int nlayers = 20 + (int) (130 * getPrecision());
 		int vertexCount = 10 + (int) (170 * getPrecision());
 		double e = 0.005;
 		double hb = 0.9;
@@ -383,9 +386,13 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildToyEarSide(Color color, FlatShadingModel shadingModel) {
-		List<Point3D> innerVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-inner.csv");
-		List<Point3D> midVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-mid.csv");
-		List<Point3D> outerVertices = ModelBuilderUtils.loadVerticesXY("resources/toy/ear-outer.csv");
+		int nv = (int) Math.round(20 + 80 * getPrecision());
+		List<Point3D> innerVertices = ModelBuilderUtils.smoothenPlanarPolyline(
+				ModelBuilderUtils.loadVerticesXY("resources/toy/ear-inner.csv"), nv);
+		List<Point3D> midVertices = ModelBuilderUtils.smoothenPlanarPolyline(
+				ModelBuilderUtils.loadVerticesXY("resources/toy/ear-mid.csv"), nv);
+		List<Point3D> outerVertices = ModelBuilderUtils.smoothenPlanarPolyline(
+				ModelBuilderUtils.loadVerticesXY("resources/toy/ear-outer.csv"), nv);
 		List<Point3D> innerVerticesCC = new Vector<Point3D>(innerVertices);
 		Collections.reverse(innerVerticesCC);
 		MultipartObject3D<SimpleFace3D> ear = new MultipartObject3D<SimpleFace3D>();

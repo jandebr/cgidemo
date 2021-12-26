@@ -82,7 +82,7 @@ public class ToyTheme {
 		this.tailShadingModel = new FlatShadingModelImpl(0.9, 2.0);
 		this.tailCordColor = new Color(240, 240, 240);
 		this.tailCordShadingModel = new FlatShadingModelImpl(0.9, 4.0);
-		this.earInsideColor = new Color(232, 212, 197);
+		this.earInsideColor = new Color(232, 212, 197, 150);
 		this.earInsideShadingModel = new FlatShadingModelImpl(1.0, 1.0);
 		this.earOutsideColor = new Color(107, 49, 7);
 		this.earOutsideShadingModel = new FlatShadingModelImpl(0.4, 1.0);

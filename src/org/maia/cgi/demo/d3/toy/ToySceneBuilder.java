@@ -9,9 +9,11 @@ import org.maia.cgi.demo.d3.toy.model.ToyBuilder;
 import org.maia.cgi.demo.d3.toy.model.ToyTheme;
 import org.maia.cgi.geometry.Geometry;
 import org.maia.cgi.geometry.d3.Point3D;
+import org.maia.cgi.geometry.d3.Vector3D;
 import org.maia.cgi.model.d3.camera.Camera;
 import org.maia.cgi.model.d3.camera.RevolvingCamera;
 import org.maia.cgi.model.d3.light.AmbientLight;
+import org.maia.cgi.model.d3.light.InboundLight;
 import org.maia.cgi.model.d3.light.LightSource;
 import org.maia.cgi.model.d3.light.SpotLight;
 import org.maia.cgi.model.d3.object.Object3D;
@@ -63,6 +65,7 @@ public class ToySceneBuilder extends SceneBuilder {
 		lights.add(new SpotLight(new Point3D(4.78, 5.0, -8.0), 0.6));
 		lights.add(new SpotLight(new Point3D(-3.72, 5.0, -1.0), 0.6));
 		lights.add(new SpotLight(new Point3D(4.78, 5.0, -1.0), 0.6));
+		lights.add(new InboundLight(new Vector3D(0.6, -0.1, -1.0), 0.2));
 		return lights;
 	}
 

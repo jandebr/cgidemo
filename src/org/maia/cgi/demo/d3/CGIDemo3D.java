@@ -6,6 +6,7 @@ import org.maia.cgi.demo.d3.cube.CubeSceneBuilder;
 import org.maia.cgi.demo.d3.curve.CurveSceneBuilder;
 import org.maia.cgi.demo.d3.elephant.ElephantSceneBuilder;
 import org.maia.cgi.demo.d3.layers.LayersSceneBuilder;
+import org.maia.cgi.demo.d3.polygon.PolygonSceneBuilder;
 import org.maia.cgi.demo.d3.sphere.SphereSceneBuilder;
 import org.maia.cgi.demo.d3.toy.ToySceneBuilder;
 import org.maia.cgi.demo.d3.transit.TransitSceneBuilder;
@@ -31,10 +32,11 @@ public class CGIDemo3D {
 	public void show() {
 		RenderKit kit = new DefaultRenderKit();
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
-		addAndShowAxisScene(frame);
+		addPolygonScene(frame);
+		addAxisScene(frame);
 		addTransitScene(frame);
 		addLayersScene(frame);
-		addElephantScene(frame);
+		addAndShowElephantScene(frame);
 		addToyScene(frame);
 		addCubesScene(frame);
 		addSpheresScene(frame);
@@ -42,11 +44,18 @@ public class CGIDemo3D {
 		addButterfliesScene(frame);
 	}
 
-	private void addAndShowAxisScene(RenderFrame frame) {
+	private void addPolygonScene(RenderFrame frame) {
+		PolygonSceneBuilder polygonBuilder = new PolygonSceneBuilder();
+		RenderOptions options = polygonBuilder.getDefaultRenderOptions();
+		Scene scene = polygonBuilder.build(options);
+		addScene(frame, scene, options);
+	}
+
+	private void addAxisScene(RenderFrame frame) {
 		AxisSceneBuilder axisBuilder = new AxisSceneBuilder();
 		RenderOptions options = axisBuilder.getDefaultRenderOptions();
 		Scene scene = axisBuilder.build(options);
-		addAndShowScene(frame, scene, options);
+		addScene(frame, scene, options);
 	}
 
 	private void addTransitScene(RenderFrame frame) {
@@ -63,11 +72,11 @@ public class CGIDemo3D {
 		addScene(frame, scene, options);
 	}
 
-	private void addElephantScene(RenderFrame frame) {
+	private void addAndShowElephantScene(RenderFrame frame) {
 		ElephantSceneBuilder elephantBuilder = new ElephantSceneBuilder();
 		RenderOptions options = elephantBuilder.getDefaultRenderOptions();
 		Scene scene = elephantBuilder.build(options);
-		addScene(frame, scene, options);
+		addAndShowScene(frame, scene, options);
 	}
 
 	private void addToyScene(RenderFrame frame) {

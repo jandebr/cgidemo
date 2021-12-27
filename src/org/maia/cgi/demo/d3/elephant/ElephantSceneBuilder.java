@@ -19,7 +19,14 @@ import org.maia.cgi.render.d3.RenderOptions;
 
 public class ElephantSceneBuilder extends SceneBuilder {
 
+	private ElephantTheme theme;
+
 	public ElephantSceneBuilder() {
+		this(new ElephantTheme());
+	}
+
+	public ElephantSceneBuilder(ElephantTheme theme) {
+		this.theme = theme;
 	}
 
 	@Override
@@ -46,8 +53,7 @@ public class ElephantSceneBuilder extends SceneBuilder {
 
 	@Override
 	protected Collection<Object3D> createTopLevelObjects(RenderOptions options) {
-		ElephantTheme theme = new ElephantTheme();
-		ElephantBuilder builder = new ElephantBuilder(theme, 1.0);
+		ElephantBuilder builder = new ElephantBuilder(getTheme(), 1.0);
 		Collection<Object3D> objects = new Vector<Object3D>();
 		objects.add(builder.build().translateY(-0.7).scale(1.5));
 		return objects;
@@ -62,6 +68,10 @@ public class ElephantSceneBuilder extends SceneBuilder {
 		lights.add(new SpotLight(new Point3D(-5.0, 5.0, 5.0), 0.6));
 		lights.add(new SpotLight(new Point3D(5.0, 5.0, 5.0), 0.6));
 		return lights;
+	}
+
+	public ElephantTheme getTheme() {
+		return theme;
 	}
 
 }

@@ -37,7 +37,7 @@ public class CGIDemo3D {
 		addTransitScene(frame);
 		addLayersScene(frame);
 		addAndShowElephantScene(frame);
-		addToyScene(frame);
+		// addToyScene(frame);
 		addCubesScene(frame);
 		addSpheresScene(frame);
 		addCurveScene(frame);

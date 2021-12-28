@@ -15,6 +15,7 @@ import org.maia.cgi.render.d2.TextureMap;
 import org.maia.cgi.render.d2.TextureMapHandle;
 import org.maia.cgi.render.d2.TextureMapRegistry;
 import org.maia.cgi.render.d3.RenderOptions;
+import org.maia.cgi.render.d3.ReusableObjectPack;
 import org.maia.cgi.transform.d3.TransformMatrix;
 
 public class ButterflyWing extends ConvexPolygonalObject3D {
@@ -97,7 +98,8 @@ public class ButterflyWing extends ConvexPolygonalObject3D {
 	}
 
 	@Override
-	protected void applySurfacePointShading(ObjectSurfacePoint3D surfacePoint, Scene scene, RenderOptions options) {
+	protected void applySurfacePointShading(ObjectSurfacePoint3D surfacePoint, Scene scene, RenderOptions options,
+			ReusableObjectPack reusableObjects) {
 		Point3D positionInCamera = surfacePoint.getPositionInCamera();
 		Point3D objectPosition = fromCameraToObjectCoordinates(positionInCamera, scene.getCamera());
 		Point3D picturePosition = fromObjectToPictureCoordinates(objectPosition);

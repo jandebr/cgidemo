@@ -15,7 +15,6 @@ import org.maia.cgi.geometry.Geometry;
 import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
 import org.maia.cgi.geometry.d3.Vector3D;
-import org.maia.cgi.model.d3.CoordinateFrame;
 import org.maia.cgi.model.d3.camera.Camera;
 import org.maia.cgi.model.d3.camera.RevolvingCamera;
 import org.maia.cgi.model.d3.light.LightSource;
@@ -195,7 +194,7 @@ public class TransitSceneBuilder extends SceneBuilder {
 
 	@Override
 	protected DepthFunction createDarknessDepthFunction(Scene scene, RenderOptions options) {
-		Box3D bbox = scene.getBoundingBox(CoordinateFrame.CAMERA);
+		Box3D bbox = scene.getBoundingBoxInCameraCoordinates();
 		double nearDepth = -bbox.getZ2();
 		double farDepth = -bbox.getZ1();
 		double midDepth = 0.4 * nearDepth + 0.6 * farDepth;
@@ -205,7 +204,7 @@ public class TransitSceneBuilder extends SceneBuilder {
 	@Override
 	protected Collection<LightSource> createLightSources(Scene scene, RenderOptions options) {
 		Collection<LightSource> lights = new Vector<LightSource>();
-		Box3D bbox = scene.getBoundingBox(CoordinateFrame.WORLD);
+		Box3D bbox = scene.getBoundingBoxInWorldCoordinates();
 		Point3D center = bbox.getCenter();
 		double radius = Math.max(Math.max(bbox.getWidth(), bbox.getHeight()), bbox.getDepth());
 		for (int i = 0; i < 8; i++) {
@@ -223,7 +222,7 @@ public class TransitSceneBuilder extends SceneBuilder {
 
 	@Override
 	protected ColorDepthBuffer createBackdrop(Scene scene, RenderOptions options) {
-		Box3D bbox = scene.getBoundingBox(CoordinateFrame.CAMERA);
+		Box3D bbox = scene.getBoundingBoxInCameraCoordinates();
 		double farDepth = -bbox.getZ1();
 		return new ColorDepthBuffer(Compositing.readImageFromFile(getResourcePath("backdrops/stars4-1920x1080.png")),
 				farDepth + 1.0);

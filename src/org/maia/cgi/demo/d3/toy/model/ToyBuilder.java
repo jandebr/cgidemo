@@ -10,7 +10,6 @@ import org.maia.cgi.demo.d3.elephant.model.ElephantTheme;
 import org.maia.cgi.geometry.Geometry;
 import org.maia.cgi.geometry.d3.Box3D;
 import org.maia.cgi.geometry.d3.Point3D;
-import org.maia.cgi.model.d3.CoordinateFrame;
 import org.maia.cgi.model.d3.ModelBuilderUtils;
 import org.maia.cgi.model.d3.object.BaseObject3D;
 import org.maia.cgi.model.d3.object.MultipartObject3D;
@@ -36,7 +35,7 @@ public class ToyBuilder {
 	public BaseObject3D build() {
 		BaseObject3D toy = buildToy();
 		BaseObject3D floor = buildFloor(toy);
-		double yFloor = floor.getBoundingBox(CoordinateFrame.WORLD, null).getY1();
+		double yFloor = floor.getBoundingBoxInWorldCoordinates().getY1();
 		BaseObject3D cube = buildCube(yFloor);
 		BaseObject3D elephant = buildElephant(cube);
 		MultipartObject3D<BaseObject3D> model = new MultipartObject3D<BaseObject3D>();
@@ -432,7 +431,7 @@ public class ToyBuilder {
 
 	protected BaseObject3D buildFloor(BaseObject3D toy) {
 		MultipartObject3D<BaseObject3D> floor = new MultipartObject3D<BaseObject3D>();
-		Box3D bbox = toy.getBoundingBox(CoordinateFrame.WORLD, null);
+		Box3D bbox = toy.getBoundingBoxInWorldCoordinates();
 		double y = bbox.getY1();
 		double x1 = bbox.getX1() - 4.0;
 		double x2 = bbox.getX2() + 3.0;
@@ -497,7 +496,7 @@ public class ToyBuilder {
 	}
 
 	protected BaseObject3D buildElephant(BaseObject3D cube) {
-		Box3D bbox = cube.getBoundingBox(CoordinateFrame.WORLD, null);
+		Box3D bbox = cube.getBoundingBoxInWorldCoordinates();
 		double xc = 0.5 * bbox.getX1() + 0.5 * bbox.getX2();
 		double yc = bbox.getY2();
 		double zc = 0.3 * bbox.getZ1() + 0.7 * bbox.getZ2();

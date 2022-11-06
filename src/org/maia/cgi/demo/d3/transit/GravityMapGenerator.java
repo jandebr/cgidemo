@@ -12,7 +12,7 @@ public class GravityMapGenerator {
 
 	public static void main(String[] args) {
 		BufferedImage map = new GravityMapGenerator().makeMap(640, 480);
-		Compositing.writeImageToFile(map, "resources/transit/gravity/gravity6.png");
+		Compositing.writeImageToFile(map, "resources/transit/gravity/gravity7.png");
 	}
 
 	private BufferedImage makeMap(int width, int height) {

@@ -12,8 +12,8 @@ public class TransitTileGenerator {
 
 	public static void main(String[] args) throws Exception {
 		File baseDir = new File("resources/transit");
-		File imageFile = new File(baseDir, "words/akta.png");
-		File outputDir = new File(baseDir, "tiles/akta2");
+		File imageFile = new File(baseDir, "words/aws.png");
+		File outputDir = new File(baseDir, "tiles/aws");
 		new TransitTileGenerator().sliceImageIntoTiles(imageFile, 48, 27, outputDir);
 	}
 

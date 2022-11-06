@@ -15,7 +15,6 @@ import org.maia.cgi.gui.d3.renderer.DefaultRenderKit;
 import org.maia.cgi.gui.d3.renderer.RenderFrame;
 import org.maia.cgi.gui.d3.renderer.RenderKit;
 import org.maia.cgi.model.d3.scene.Scene;
-import org.maia.cgi.render.d2.TextureMapRegistry;
 import org.maia.cgi.render.d3.RenderOptions;
 
 public class CGIDemo3D {
@@ -24,7 +23,7 @@ public class CGIDemo3D {
 	}
 
 	public static void main(String[] args) {
-		TextureMapRegistry.getInstance().setCapacity(Integer.MAX_VALUE); // suppress warnings about capacity
+		// TextureMapRegistry.getInstance().setCapacity(Integer.MAX_VALUE); // suppress warnings about capacity
 		CGIDemo3D demo = new CGIDemo3D();
 		demo.show();
 	}
@@ -32,16 +31,16 @@ public class CGIDemo3D {
 	public void show() {
 		RenderKit kit = new DefaultRenderKit();
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
-		addPolygonScene(frame);
-		addAxisScene(frame);
-		addTransitScene(frame);
-		addLayersScene(frame);
-		addAndShowElephantScene(frame);
+		// addPolygonScene(frame);
+		// addAxisScene(frame);
+		addAndShowTransitScene(frame);
+		// addLayersScene(frame);
+		// addAndShowElephantScene(frame);
 		// addToyScene(frame);
-		addCubesScene(frame);
-		addSpheresScene(frame);
-		addCurveScene(frame);
-		addButterfliesScene(frame);
+		// addCubesScene(frame);
+		// addSpheresScene(frame);
+		// addCurveScene(frame);
+		// addButterfliesScene(frame);
 	}
 
 	private void addPolygonScene(RenderFrame frame) {
@@ -58,11 +57,11 @@ public class CGIDemo3D {
 		addScene(frame, scene, options);
 	}
 
-	private void addTransitScene(RenderFrame frame) {
+	private void addAndShowTransitScene(RenderFrame frame) {
 		TransitSceneBuilder transitBuilder = new TransitSceneBuilder();
 		RenderOptions options = transitBuilder.getDefaultRenderOptions();
 		Scene scene = transitBuilder.build(options);
-		addScene(frame, scene, options);
+		addAndShowScene(frame, scene, options);
 	}
 
 	private void addLayersScene(RenderFrame frame) {

@@ -40,9 +40,9 @@ import org.maia.cgi.transform.d3.Transformation;
 
 public class TransitSceneBuilder extends SceneBuilder {
 
-	private String wordAlfa = "alfa";
+	private String wordAlfa = "akta";
 
-	private String wordBeta = "beta";
+	private String wordBeta = "aws";
 
 	private double zAlfa = -28.0;
 
@@ -161,7 +161,7 @@ public class TransitSceneBuilder extends SceneBuilder {
 	}
 
 	private TextureMap getGravityMap() {
-		TextureMapHandle handle = new ImageTextureMapFileHandle(getResourcePath("gravity/gravity4-thumb.png"));
+		TextureMapHandle handle = new ImageTextureMapFileHandle(getResourcePath("gravity/gravity7-thumb.png"));
 		return TextureMapRegistry.getInstance().getTextureMap(handle);
 	}
 
@@ -177,13 +177,13 @@ public class TransitSceneBuilder extends SceneBuilder {
 			}
 		}
 		// Specials
-		grid[24][3] = getResourcePath("frames/x.png");
+		grid[24][3] = getResourcePath("frames/vod-specials/K2zoektK3.png");
 		return grid;
 	}
 
 	private List<String> getFrameImagePaths() {
 		List<String> paths = new Vector<String>(1500);
-		File folder = new File(getResourcePath("frames/prototype"));
+		File folder = new File(getResourcePath("frames/vod-scaled"));
 		for (File file : folder.listFiles()) {
 			if (file.getName().endsWith(".png")) {
 				paths.add(file.getPath());

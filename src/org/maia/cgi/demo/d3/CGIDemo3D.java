@@ -5,6 +5,7 @@ import org.maia.cgi.demo.d3.butterfly.ButterflySceneBuilder;
 import org.maia.cgi.demo.d3.cube.CubeSceneBuilder;
 import org.maia.cgi.demo.d3.curve.CurveSceneBuilder;
 import org.maia.cgi.demo.d3.elephant.ElephantSceneBuilder;
+import org.maia.cgi.demo.d3.elevation.ElevationSceneBuilder;
 import org.maia.cgi.demo.d3.layers.LayersSceneBuilder;
 import org.maia.cgi.demo.d3.polygon.PolygonSceneBuilder;
 import org.maia.cgi.demo.d3.sphere.SphereSceneBuilder;
@@ -33,7 +34,8 @@ public class CGIDemo3D {
 		RenderFrame frame = new RenderFrame(940, 700, kit, 1.0, Geometry.degreesToRadians(30.0));
 		// addPolygonScene(frame);
 		// addAxisScene(frame);
-		addAndShowTransitScene(frame);
+		// addTransitScene(frame);
+		addAndShowElevationScene(frame);
 		// addLayersScene(frame);
 		// addAndShowElephantScene(frame);
 		// addToyScene(frame);
@@ -57,10 +59,17 @@ public class CGIDemo3D {
 		addScene(frame, scene, options);
 	}
 
-	private void addAndShowTransitScene(RenderFrame frame) {
+	private void addTransitScene(RenderFrame frame) {
 		TransitSceneBuilder transitBuilder = new TransitSceneBuilder();
 		RenderOptions options = transitBuilder.getDefaultRenderOptions();
 		Scene scene = transitBuilder.build(options);
+		addScene(frame, scene, options);
+	}
+
+	private void addAndShowElevationScene(RenderFrame frame) {
+		ElevationSceneBuilder elevationBuilder = new ElevationSceneBuilder();
+		RenderOptions options = elevationBuilder.getDefaultRenderOptions();
+		Scene scene = elevationBuilder.build(options);
 		addAndShowScene(frame, scene, options);
 	}
 

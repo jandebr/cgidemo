@@ -35,6 +35,7 @@ public class TransitTileGenerator {
 				Compositing.writeImageToFile(tileImage, new File(outputDir, fileName).getPath());
 			}
 		}
+		System.out.println("Finished slicing " + tilesX + "x" + tilesY + " tiles");
 	}
 
 }
